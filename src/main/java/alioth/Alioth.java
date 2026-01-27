@@ -3,7 +3,7 @@ package alioth;
 import java.util.Scanner;
 
 /**
- * A chatbot that can store tasks and display them on request.
+ * A chatbot that can store tasks of different types and display them on request.
  */
 public class Alioth {
     private static final String LINE = "____________________________________________________________";
@@ -34,8 +34,14 @@ public class Alioth {
                 markTask(input);
             } else if (input.startsWith("unmark ")) {
                 unmarkTask(input);
+            } else if (input.startsWith("todo ")) {
+                addTodo(input);
+            } else if (input.startsWith("deadline ")) {
+                addDeadline(input);
+            } else if (input.startsWith("event ")) {
+                addEvent(input);
             } else {
-                addTask(input);
+                addTask(new Todo(input));
             }
         }
     }
@@ -71,13 +77,43 @@ public class Alioth {
         System.out.println(LINE);
     }
 
-    private static void addTask(String task) {
-        TASKS[taskCount] = new Task(task);
+    private static void addTask(Task task) {
+        TASKS[taskCount] = task;
         taskCount++;
 
         System.out.println(LINE);
-        System.out.println("added: " + task);
+        System.out.println("Got it. I've added this task:");
+        System.out.println("  " + task);
+        System.out.println("Now you have " + taskCount + " tasks in the list.");
         System.out.println(LINE);
+    }
+
+    private static void addTodo(String input) {
+        String description = input.substring("todo ".length());
+        addTask(new Todo(description));
+    }
+
+    private static void addDeadline(String input) {
+        String details = input.substring("deadline ".length());
+        String[] parts = details.split(" /by ", 2);
+
+        String description = parts[0];
+        String by = parts[1];
+
+        addTask(new Deadline(description, by));
+    }
+
+    private static void addEvent(String input) {
+        String details = input.substring("event ".length());
+        String[] firstSplit = details.split(" /from ", 2);
+
+        String description = firstSplit[0];
+        String[] secondSplit = firstSplit[1].split(" /to ", 2);
+
+        String from = secondSplit[0];
+        String to = secondSplit[1];
+
+        addTask(new Event(description, from, to));
     }
 
     private static void printList() {
