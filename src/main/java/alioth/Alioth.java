@@ -1,5 +1,7 @@
 package alioth;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -7,10 +9,8 @@ import java.util.Scanner;
  */
 public class Alioth {
     private static final String LINE = "____________________________________________________________";
-    private static final int MAX_TASKS = 100;
 
-    private static final Task[] TASKS = new Task[MAX_TASKS];
-    private static int taskCount = 0;
+    private static final List<Task> tasks = new ArrayList<>();
 
     /**
      * Starts the chatbot.
@@ -37,44 +37,44 @@ public class Alioth {
     }
 
     private static boolean handleInput(String input) throws AliothException {
-        if (input.equals("bye")) {
+        String trimmed = input.trim();
+
+        if (trimmed.equals("bye")) {
             printBye();
             return true;
-        } else if (input.equals("list")) {
+        } else if (trimmed.equals("list")) {
             printList();
             return false;
-        } else if (input.startsWith("mark")) {
-            markTask(input);
+        } else if (trimmed.startsWith("mark")) {
+            markTask(trimmed);
             return false;
-        } else if (input.startsWith("unmark")) {
-            unmarkTask(input);
+        } else if (trimmed.startsWith("unmark")) {
+            unmarkTask(trimmed);
             return false;
-        } else if (input.startsWith("todo")) {
-            addTodo(input);
+        } else if (trimmed.startsWith("delete")) {
+            deleteTask(trimmed);
             return false;
-        } else if (input.startsWith("deadline")) {
-            addDeadline(input);
+        } else if (trimmed.startsWith("todo")) {
+            addTodo(trimmed);
             return false;
-        } else if (input.startsWith("event")) {
-            addEvent(input);
+        } else if (trimmed.startsWith("deadline")) {
+            addDeadline(trimmed);
+            return false;
+        } else if (trimmed.startsWith("event")) {
+            addEvent(trimmed);
             return false;
         } else {
             throw new AliothException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
     }
 
-    private static void addTask(Task task) throws AliothException {
-        if (taskCount >= MAX_TASKS) {
-            throw new AliothException("OOPS!!! The task list is full.");
-        }
-
-        TASKS[taskCount] = task;
-        taskCount++;
+    private static void addTask(Task task) {
+        tasks.add(task);
 
         System.out.println(LINE);
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);
-        System.out.println("Now you have " + taskCount + " tasks in the list.");
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
         System.out.println(LINE);
     }
 
@@ -144,7 +144,7 @@ public class Alioth {
 
     private static void markTask(String input) throws AliothException {
         int index = parseTaskIndex(input, "mark");
-        Task task = TASKS[index];
+        Task task = tasks.get(index);
         task.setDone(true);
 
         System.out.println(LINE);
@@ -155,12 +155,23 @@ public class Alioth {
 
     private static void unmarkTask(String input) throws AliothException {
         int index = parseTaskIndex(input, "unmark");
-        Task task = TASKS[index];
+        Task task = tasks.get(index);
         task.setDone(false);
 
         System.out.println(LINE);
         System.out.println("OK, I've marked this task as not done yet:");
         System.out.println("  " + task);
+        System.out.println(LINE);
+    }
+
+    private static void deleteTask(String input) throws AliothException {
+        int index = parseTaskIndex(input, "delete");
+        Task removed = tasks.remove(index);
+
+        System.out.println(LINE);
+        System.out.println("Noted. I've removed this task:");
+        System.out.println("  " + removed);
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
         System.out.println(LINE);
     }
 
@@ -178,7 +189,7 @@ public class Alioth {
             throw new AliothException("OOPS!!! Invalid " + commandWord + " format.");
         }
 
-        if (taskNumber < 1 || taskNumber > taskCount) {
+        if (taskNumber < 1 || taskNumber > tasks.size()) {
             throw new AliothException("OOPS!!! Invalid " + commandWord + " format.");
         }
 
@@ -189,8 +200,8 @@ public class Alioth {
         System.out.println(LINE);
         System.out.println("Here are the tasks in your list:");
 
-        for (int i = 0; i < taskCount; i++) {
-            System.out.println((i + 1) + "." + TASKS[i]);
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + "." + tasks.get(i));
         }
 
         System.out.println(LINE);
