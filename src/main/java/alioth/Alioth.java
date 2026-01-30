@@ -37,35 +37,63 @@ public class Alioth {
     }
 
     private static boolean handleInput(String input) throws AliothException {
-        String trimmed = input.trim();
+        if (!input.equals(input.stripLeading())) {
+            throw new AliothException("OOPS!!! Command should not start with space(s).");
+        }
 
-        if (trimmed.equals("bye")) {
+        if (input.equals("bye")) {
             printBye();
             return true;
-        } else if (trimmed.equals("list")) {
+        }
+
+        if (input.equals("list")) {
             printList();
             return false;
-        } else if (trimmed.startsWith("mark")) {
-            markTask(trimmed);
-            return false;
-        } else if (trimmed.startsWith("unmark")) {
-            unmarkTask(trimmed);
-            return false;
-        } else if (trimmed.startsWith("delete")) {
-            deleteTask(trimmed);
-            return false;
-        } else if (trimmed.startsWith("todo")) {
-            addTodo(trimmed);
-            return false;
-        } else if (trimmed.startsWith("deadline")) {
-            addDeadline(trimmed);
-            return false;
-        } else if (trimmed.startsWith("event")) {
-            addEvent(trimmed);
-            return false;
-        } else {
-            throw new AliothException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
+
+        if (input.startsWith("mark ")) {
+            markTask(input);
+            return false;
+        }
+
+        if (input.startsWith("unmark ")) {
+            unmarkTask(input);
+            return false;
+        }
+
+        if (input.startsWith("delete ")) {
+            deleteTask(input);
+            return false;
+        }
+
+        if (input.equals("todo")) {
+            throw new AliothException("OOPS!!! The description of a todo cannot be empty.");
+        }
+
+        if (input.startsWith("todo ")) {
+            addTodo(input);
+            return false;
+        }
+
+        if (input.equals("deadline")) {
+            throw new AliothException("OOPS!!! Invalid deadline format.");
+        }
+
+        if (input.startsWith("deadline ")) {
+            addDeadline(input);
+            return false;
+        }
+
+        if (input.equals("event")) {
+            throw new AliothException("OOPS!!! Invalid event format.");
+        }
+
+        if (input.startsWith("event ")) {
+            addEvent(input);
+            return false;
+        }
+
+        throw new AliothException("OOPS!!! I'm sorry, but I don't know what that means :-(");
     }
 
     private static void addTask(Task task) {
@@ -79,24 +107,17 @@ public class Alioth {
     }
 
     private static void addTodo(String input) throws AliothException {
-        if (input.equals("todo")) {
+        String description = input.substring("todo ".length());
+
+        if (description.trim().isEmpty()) {
             throw new AliothException("OOPS!!! The description of a todo cannot be empty.");
         }
 
-        String description = input.substring("todo".length()).trim();
-        if (description.isEmpty()) {
-            throw new AliothException("OOPS!!! The description of a todo cannot be empty.");
-        }
-
-        addTask(new Todo(description));
+        addTask(new Todo(description.trim()));
     }
 
     private static void addDeadline(String input) throws AliothException {
-        if (input.equals("deadline")) {
-            throw new AliothException("OOPS!!! Invalid deadline format.");
-        }
-
-        String details = input.substring("deadline".length()).trim();
+        String details = input.substring("deadline ".length());
         String[] parts = details.split(" /by ", 2);
 
         if (parts.length < 2) {
@@ -114,11 +135,7 @@ public class Alioth {
     }
 
     private static void addEvent(String input) throws AliothException {
-        if (input.equals("event")) {
-            throw new AliothException("OOPS!!! Invalid event format.");
-        }
-
-        String details = input.substring("event".length()).trim();
+        String details = input.substring("event ".length());
         String[] firstSplit = details.split(" /from ", 2);
 
         if (firstSplit.length < 2) {
