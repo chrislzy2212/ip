@@ -1,5 +1,6 @@
 package alioth;
 
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,9 +13,28 @@ public class Alioth {
     private static final DateTimeFormatter EVENT_INPUT_FORMAT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
-    private static final Ui ui = new Ui();
-    private static final Storage storage = new Storage(Storage.getDefaultPath());
-    private static final TaskList tasks = new TaskList();
+    private final Ui ui;
+    private final Storage storage;
+    private final TaskList tasks;
+
+    /**
+     * Creates an instance of the chatbot using the given file path to load and save tasks.
+     *
+     * @param filePath File path for the storage file.
+     */
+    public Alioth(String filePath) {
+        ui = new Ui();
+        storage = new Storage(Paths.get(filePath));
+
+        TaskList tempTasks;
+        try {
+            tempTasks = new TaskList(storage.load());
+        } catch (AliothException e) {
+            ui.showError(e.getMessage());
+            tempTasks = new TaskList();
+        }
+        tasks = tempTasks;
+    }
 
     /**
      * Starts the chatbot.
@@ -22,14 +42,14 @@ public class Alioth {
      * @param args Command line arguments (unused).
      */
     public static void main(String[] args) {
+        new Alioth("data/duke.txt").run();
+    }
+
+    /**
+     * Runs the chatbot until the user exits.
+     */
+    public void run() {
         ui.showWelcome();
-
-        try {
-            tasks.asList().addAll(storage.load());
-        } catch (AliothException e) {
-            ui.showError(e.getMessage());
-        }
-
         while (true) {
             String input = ui.readCommand();
             try {
@@ -43,9 +63,9 @@ public class Alioth {
         }
     }
 
-    private static boolean handleInput(String input) throws AliothException {
+    private boolean handleInput(String input) throws AliothException {
         if (!input.equals(input.stripLeading())) {
-            throw new AliothException("OOPS!!! Command should not start with space(s).");
+            throw new AliothException(Message.LEADING_SPACES.getText());
         }
 
         String command = Parser.getCommandWord(input);
@@ -73,90 +93,82 @@ public class Alioth {
             return false;
 
         case "todo":
-            if (args.isEmpty()) {
-                throw new AliothException("OOPS!!! The description of a todo cannot be empty.");
-            }
             addTodo(args);
             return false;
 
         case "deadline":
-            if (args.isEmpty()) {
-                throw new AliothException("OOPS!!! Invalid deadline format.");
-            }
             addDeadline(args);
             return false;
 
         case "event":
-            if (args.isEmpty()) {
-                throw new AliothException("OOPS!!! Invalid event format.");
-            }
             addEvent(args);
             return false;
 
         default:
-            throw new AliothException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+            throw new AliothException(Message.UNKNOWN_COMMAND.getText());
         }
     }
 
-    private static void addTask(Task task) {
+    private void addTask(Task task) {
         tasks.add(task);
         ui.showAddTask(task, tasks.size());
         saveTasks();
     }
 
-    private static void addTodo(String args) throws AliothException {
+    private void addTodo(String args) throws AliothException {
         String description = args.trim();
-
         if (description.isEmpty()) {
-            throw new AliothException("OOPS!!! The description of a todo cannot be empty.");
+            throw new AliothException(Message.INVALID_TODO.getText());
         }
-
         addTask(new Todo(description));
     }
 
-    private static void addDeadline(String args) throws AliothException {
-        String[] parts = args.split(" /by ", 2);
+    private void addDeadline(String args) throws AliothException {
+        if (args.trim().isEmpty()) {
+            throw new AliothException(Message.INVALID_DEADLINE.getText());
+        }
 
+        String[] parts = args.split(" /by ", 2);
         if (parts.length != 2) {
-            throw new AliothException("OOPS!!! Invalid deadline format. Use: deadline <desc> /by yyyy-MM-dd");
+            throw new AliothException(Message.INVALID_DEADLINE.getText());
         }
 
         String description = parts[0].trim();
         String byString = parts[1].trim();
-
         if (description.isEmpty() || byString.isEmpty()) {
-            throw new AliothException("OOPS!!! Invalid deadline format. Use: deadline <desc> /by yyyy-MM-dd");
+            throw new AliothException(Message.INVALID_DEADLINE.getText());
         }
 
         LocalDate byDate;
         try {
             byDate = LocalDate.parse(byString);
         } catch (DateTimeParseException e) {
-            throw new AliothException("OOPS!!! Invalid deadline format. Use: deadline <desc> /by yyyy-MM-dd");
+            throw new AliothException(Message.INVALID_DEADLINE.getText());
         }
 
         addTask(new Deadline(description, byDate));
     }
 
-    private static void addEvent(String args) throws AliothException {
-        String[] firstSplit = args.split(" /from ", 2);
+    private void addEvent(String args) throws AliothException {
+        if (args.trim().isEmpty()) {
+            throw new AliothException(Message.INVALID_EVENT.getText());
+        }
 
+        String[] firstSplit = args.split(" /from ", 2);
         if (firstSplit.length != 2) {
-            throw new AliothException("OOPS!!! Invalid event format. Use: event <desc> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm");
+            throw new AliothException(Message.INVALID_EVENT.getText());
         }
 
         String description = firstSplit[0].trim();
         String[] secondSplit = firstSplit[1].split(" /to ", 2);
-
         if (secondSplit.length != 2) {
-            throw new AliothException("OOPS!!! Invalid event format. Use: event <desc> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm");
+            throw new AliothException(Message.INVALID_EVENT.getText());
         }
 
         String fromString = secondSplit[0].trim();
         String toString = secondSplit[1].trim();
-
         if (description.isEmpty() || fromString.isEmpty() || toString.isEmpty()) {
-            throw new AliothException("OOPS!!! Invalid event format. Use: event <desc> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm");
+            throw new AliothException(Message.INVALID_EVENT.getText());
         }
 
         LocalDateTime from;
@@ -165,13 +177,13 @@ public class Alioth {
             from = LocalDateTime.parse(fromString, EVENT_INPUT_FORMAT);
             to = LocalDateTime.parse(toString, EVENT_INPUT_FORMAT);
         } catch (DateTimeParseException e) {
-            throw new AliothException("OOPS!!! Invalid event format. Use: event <desc> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm");
+            throw new AliothException(Message.INVALID_EVENT.getText());
         }
 
         addTask(new Event(description, from, to));
     }
 
-    private static void markTask(String args) throws AliothException {
+    private void markTask(String args) throws AliothException {
         int index = parseTaskIndex(args, "mark");
         Task task = tasks.get(index);
         task.setDone(true);
@@ -180,7 +192,7 @@ public class Alioth {
         saveTasks();
     }
 
-    private static void unmarkTask(String args) throws AliothException {
+    private void unmarkTask(String args) throws AliothException {
         int index = parseTaskIndex(args, "unmark");
         Task task = tasks.get(index);
         task.setDone(false);
@@ -189,7 +201,7 @@ public class Alioth {
         saveTasks();
     }
 
-    private static void deleteTask(String args) throws AliothException {
+    private void deleteTask(String args) throws AliothException {
         int index = parseTaskIndex(args, "delete");
         Task removed = tasks.remove(index);
 
@@ -197,17 +209,17 @@ public class Alioth {
         saveTasks();
     }
 
-    private static int parseTaskIndex(String args, String commandWord) throws AliothException {
+    private int parseTaskIndex(String args, String commandWord) throws AliothException {
         int taskNumber = Parser.parseTaskNumber(args, commandWord);
 
         if (taskNumber < 1 || taskNumber > tasks.size()) {
-            throw new AliothException("OOPS!!! Invalid " + commandWord + " format.");
+            throw new AliothException(Message.invalidIndexCommand(commandWord).getText());
         }
 
         return taskNumber - 1;
     }
 
-    private static void saveTasks() {
+    private void saveTasks() {
         try {
             storage.save(tasks.asList());
         } catch (AliothException e) {
