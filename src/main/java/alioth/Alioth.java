@@ -10,6 +10,8 @@ import java.util.Scanner;
 public class Alioth {
     private static final String LINE = "____________________________________________________________";
 
+    private static final Storage storage = new Storage(Storage.getDefaultPath());
+
     private static final List<Task> tasks = new ArrayList<>();
 
     /**
@@ -19,6 +21,12 @@ public class Alioth {
      */
     public static void main(String[] args) {
         printWelcome();
+
+        try {
+            tasks.addAll(storage.load());
+        } catch (AliothException e) {
+            printError(e.getMessage());
+        }
 
         Scanner scanner = new Scanner(System.in);
 
