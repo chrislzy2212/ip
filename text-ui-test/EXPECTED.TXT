@@ -9,7 +9,7 @@ ____________________________________________________________
 OOPS!!! I'm sorry, but I don't know what that means :-(
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! The description of a todo cannot be empty.
+OOPS!!! Invalid todo format. Use: todo <description>
 ____________________________________________________________
 ____________________________________________________________
 OOPS!!! Invalid deadline format. Use: deadline <desc> /by yyyy-MM-dd
