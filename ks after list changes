@@ -1,0 +1,67 @@
+* [33m4d6e41d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mbranch-Level-7[m[33m)[m Load tasks from disk on startup
+* [33m5222968[m Add Storage to load and save tasks
+* [33mad4dc93[m Add getters to Task, Deadline, and Event
+* [33md11d23a[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m Reject commands with leading spaces
+* [33m82c4710[m[33m ([m[1;33mtag: [m[1;33mLevel-6[m[33m)[m Add delete command and use ArrayList
+* [33m3d2d75e[m[33m ([m[1;33mtag: [m[1;33mLevel-5[m[33m)[m Handle invalid user input
+* [33m5786cf5[m Add AliothException class
+* [33ma842e34[m[33m ([m[1;33mtag: [m[1;33mA-TextUiTesting[m[33m)[m Add text UI tests
+* [33m6f93e0e[m[33m ([m[1;33mtag: [m[1;33mLevel-4[m[33m)[m Add todo deadline and event commands
+* [33mb49aeaf[m Add Todo, Deadline, and Event classes
+* [33ma98cbc5[m[33m ([m[1;33mtag: [m[1;33mLevel-3[m[33m)[m Add mark and unmark commands
+* [33mb3caacc[m Add Task class
+* [33m3b14c69[m[33m ([m[1;33mtag: [m[1;33mLevel-2[m[33m)[m Add task storage and list command
+* [33md97df43[m[33m ([m[1;33mtag: [m[1;33mLevel-1[m[33m)[m Add echo and exit on bye
+* [33m4f4bc88[m[33m ([m[1;33mtag: [m[1;33mLevel-0[m[33m)[m Rename Duke to Alioth
+* [33m17f267d[m Move Duke to alioth package
+* [33m33ea780[m README: Use correct item number in list
+* [33mad9696c[m README: Ask to keep source folder structure
+* [33m173d5b3[m README: Update the JDK version 11 -> 17
+* [33m55f9f9f[m docs/README.md: Tweak document template
+* [33m3b83789[m .gitignore: Fix ACTUAL.txt -> ACTUAL.TXT  (#73)
+* [33me698798[m README: Mention the project language level setting
+* [33m7bfb6e7[m README.md: Tweak template text
+* [33meabcfca[m README: Update setup instructions to match the latest IDE version
+* [33m6001e2e[m Improve runtest.* scripts
+* [33m87eb8b8[m README.md: Fix typo of => or
+* [33mef3c8cd[m Add text-ui-test files
+* [33m71d7ea8[m Remove generic tutorials
+*   [33m1416279[m Merge pull request #41 from jiachen247/patch-2
+[32m|[m[33m\[m  
+[32m|[m * [33m2697ae1[m Remove unnecessary override annotation
+[32m|[m[32m/[m  
+*   [33m6f2ddfa[m Merge pull request #35 from j-lum/xplatformjfx
+[34m|[m[35m\[m  
+[34m|[m * [33m2ca6b28[m JavaFX tutorial: Support cross-platform JARs
+[34m|[m[34m/[m  
+*   [33mfae28ab[m Merge pull request #14 from j-lum/fxml-indent
+[36m|[m[1;31m\[m  
+[36m|[m * [33m26a5013[m Change indentation in FXML samples to match AB-3
+* [1;31m|[m   [33mbaa18a5[m Merge pull request #8 from j-lum/tutorial-fix
+[1;31m|[m[1;33m\[m [1;31m\[m  
+[1;31m|[m [1;33m|[m[1;31m/[m  
+[1;31m|[m[1;31m/[m[1;33m|[m   
+[1;31m|[m * [33m5df56a8[m Remove references to DukeStub
+[1;31m|[m[1;31m/[m  
+*   [33m999fa98[m Merge pull request #7 from j-lum/tutorial-fix
+[1;34m|[m[1;35m\[m  
+[1;34m|[m * [33m8d6d6f4[m Add images to JavaFX tutorial 3
+[1;34m|[m * [33mb6df1a3[m Fix typo referring to `HelloWorld`
+[1;34m|[m[1;34m/[m  
+* [33md2ffa00[m Update Gradle tutorial to reflect new checkstyle config
+*   [33mf20d610[m Merge pull request #3 from j-lum/inline-javafx-tutorials
+[1;36m|[m[31m\[m  
+[1;36m|[m * [33mbad66fc[m Adapt JavaFX tutorial for Duke
+[1;36m|[m[1;36m/[m  
+* [33m5c47c23[m Specify checkstyle version
+* [33ma2150c1[m textUiTestingTutorial.md: mention updating java/javac commands
+* [33m2d06f90[m textUiTestingTutorial.md: add missing <br>
+* [33m5c491d3[m Add a tutorial on text UI testing
+* [33m53c0460[m Update list of contributors
+* [33m21af6a1[m Fix typo in link to checkstyle config files
+* [33m8fe8afd[m README: use numbered list for steps
+* [33mf20bff2[m Tweak tutorial text
+* [33m6a7120c[m Move Duke.java out of the package
+* [33m6bb6b9f[m .gitignore: add *.iml
+* [33m946f3bb[m Import base branch for students to start off
+* [33m245013d[m Initial commit
