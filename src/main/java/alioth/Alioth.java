@@ -112,6 +112,12 @@ public class Alioth {
         System.out.println("  " + task);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
         System.out.println(LINE);
+
+        try {
+            storage.save(tasks);
+        } catch (AliothException e) {
+            printError(e.getMessage());
+        }
     }
 
     private static void addTodo(String input) throws AliothException {
@@ -176,6 +182,12 @@ public class Alioth {
         System.out.println("Nice! I've marked this task as done:");
         System.out.println("  " + task);
         System.out.println(LINE);
+
+        try {
+            storage.save(tasks);
+        } catch (AliothException e) {
+            printError(e.getMessage());
+        }
     }
 
     private static void unmarkTask(String input) throws AliothException {
@@ -187,6 +199,12 @@ public class Alioth {
         System.out.println("OK, I've marked this task as not done yet:");
         System.out.println("  " + task);
         System.out.println(LINE);
+
+        try {
+            storage.save(tasks);
+        } catch (AliothException e) {
+            printError(e.getMessage());
+        }
     }
 
     private static void deleteTask(String input) throws AliothException {
@@ -198,6 +216,12 @@ public class Alioth {
         System.out.println("  " + removed);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
         System.out.println(LINE);
+
+        try {
+            storage.save(tasks);
+        } catch (AliothException e) {
+            printError(e.getMessage());
+        }
     }
 
     private static int parseTaskIndex(String input, String commandWord) throws AliothException {
