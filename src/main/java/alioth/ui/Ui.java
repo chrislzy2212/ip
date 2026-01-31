@@ -124,6 +124,20 @@ public class Ui {
     }
 
     /**
+     * Shows tasks that match the given keyword.
+     *
+     * @param tasks Matching tasks to display.
+     */
+    public void showMatchingTasks(List<Task> tasks) {
+        showLine();
+        System.out.println("Here are the matching tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + "." + tasks.get(i));
+        }
+        showLine();
+    }
+
+    /**
      * Reads the next line of user input.
      *
      * @return The user's input line.

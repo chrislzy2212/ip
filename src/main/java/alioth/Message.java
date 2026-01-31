@@ -14,6 +14,7 @@ public enum Message {
     INVALID_MARK("OOPS!!! Invalid mark format. Use: mark <task number>"),
     INVALID_UNMARK("OOPS!!! Invalid unmark format. Use: unmark <task number>"),
     INVALID_DELETE("OOPS!!! Invalid delete format. Use: delete <task number>"),
+    INVALID_FIND("OOPS!!! Invalid find format. Use: find <keyword>"),
 
     SAVE_ERROR("OOPS!!! Could not save tasks to the save file.");
 

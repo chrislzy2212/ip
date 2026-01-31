@@ -204,6 +204,6 @@ public class Storage {
      * @return Default save file path.
      */
     public static Path getDefaultPath() {
-        return Paths.get("data", "duke.txt");
+        return Paths.get("data", "alioth.txt");
     }
 }

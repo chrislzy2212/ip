@@ -6,11 +6,13 @@ deadline return book /by 2026-02-30
 event project meeting /from Mon 2pm /to 4pm
 event project meeting /from 2026-02-01 1400 /to 2026-02-01
 blah
+find
  todo borrow book
 todo borrow book
 deadline return book /by 2026-02-01
 event project meeting /from 2026-02-01 1400 /to 2026-02-01 1600
 list
+find book
 mark 1
 unmark 1
 delete 1
