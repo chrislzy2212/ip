@@ -40,7 +40,7 @@ public class Alioth {
      * @param args Command line arguments (unused).
      */
     public static void main(String[] args) {
-        new Alioth("data/duke.txt").run();
+        new Alioth("data/alioth.txt").run();
     }
 
     /**

@@ -32,6 +32,8 @@ public class Parser {
             return new ExitCommand();
         case "list":
             return new ListCommand();
+        case "find":
+            return new FindCommand(args);
         case "mark":
             return new MarkCommand(args);
         case "unmark":
