@@ -1,7 +1,7 @@
 package alioth;
 
 /**
- * Represents user-facing messages used by the application.
+ * Represents error messages used by the application.
  */
 public enum Message {
     LEADING_SPACES("OOPS!!! Command should not start with space(s)."),
