@@ -6,11 +6,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * Handles saving and loading tasks to/from the hard disk.
  */
 public class Storage {
+    private static final DateTimeFormatter EVENT_FILE_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+
     private final Path filePath;
 
     /**
@@ -116,20 +123,38 @@ public class Storage {
             if (parts.length != 4) {
                 return null;
             }
-            String by = parts[3].trim();
-            if (by.isEmpty()) {
+            String byString = parts[3].trim();
+            if (byString.isEmpty()) {
                 return null;
             }
+
+            LocalDate by;
+            try {
+                by = LocalDate.parse(byString); // yyyy-MM-dd
+            } catch (DateTimeParseException e) {
+                return null;
+            }
+
             task = new Deadline(description, by);
         } else if (type.equals("E")) {
             if (parts.length != 5) {
                 return null;
             }
-            String from = parts[3].trim();
-            String to = parts[4].trim();
-            if (from.isEmpty() || to.isEmpty()) {
+            String fromString = parts[3].trim();
+            String toString = parts[4].trim();
+            if (fromString.isEmpty() || toString.isEmpty()) {
                 return null;
             }
+
+            LocalDateTime from;
+            LocalDateTime to;
+            try {
+                from = LocalDateTime.parse(fromString, EVENT_FILE_FORMAT);
+                to = LocalDateTime.parse(toString, EVENT_FILE_FORMAT);
+            } catch (DateTimeParseException e) {
+                return null;
+            }
+
             task = new Event(description, from, to);
         } else {
             return null;
@@ -159,7 +184,9 @@ public class Storage {
 
         if (task instanceof Event) {
             Event e = (Event) task;
-            return "E | " + doneFlag + " | " + task.getDescription() + " | " + e.getFrom() + " | " + e.getTo();
+            return "E | " + doneFlag + " | " + task.getDescription()
+                    + " | " + e.getFrom().format(EVENT_FILE_FORMAT)
+                    + " | " + e.getTo().format(EVENT_FILE_FORMAT);
         }
 
         return "T | " + doneFlag + " | " + task.getDescription();

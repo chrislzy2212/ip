@@ -3,15 +3,21 @@ package alioth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * A chatbot that can store tasks of different types and display them on request.
  */
 public class Alioth {
+    private static final DateTimeFormatter EVENT_INPUT_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+
     private static final String LINE = "____________________________________________________________";
 
     private static final Storage storage = new Storage(Storage.getDefaultPath());
-
     private static final List<Task> tasks = new ArrayList<>();
 
     /**
@@ -134,40 +140,57 @@ public class Alioth {
         String details = input.substring("deadline ".length());
         String[] parts = details.split(" /by ", 2);
 
-        if (parts.length < 2) {
-            throw new AliothException("OOPS!!! Invalid deadline format.");
+        if (parts.length != 2) {
+            throw new AliothException("OOPS!!! Invalid deadline format. Use: deadline <desc> /by yyyy-MM-dd");
         }
 
         String description = parts[0].trim();
-        String by = parts[1].trim();
+        String byString = parts[1].trim();
 
-        if (description.isEmpty() || by.isEmpty()) {
-            throw new AliothException("OOPS!!! Invalid deadline format.");
+        if (description.isEmpty() || byString.isEmpty()) {
+            throw new AliothException("OOPS!!! Invalid deadline format. Use: deadline <desc> /by yyyy-MM-dd");
         }
 
-        addTask(new Deadline(description, by));
+        LocalDate byDate;
+        try {
+            byDate = LocalDate.parse(byString); // expects yyyy-MM-dd
+        } catch (DateTimeParseException e) {
+            throw new AliothException("OOPS!!! Invalid deadline format. Use: deadline <desc> /by yyyy-MM-dd");
+        }
+
+        addTask(new Deadline(description, byDate));
     }
+
 
     private static void addEvent(String input) throws AliothException {
         String details = input.substring("event ".length());
         String[] firstSplit = details.split(" /from ", 2);
 
-        if (firstSplit.length < 2) {
-            throw new AliothException("OOPS!!! Invalid event format.");
+        if (firstSplit.length != 2) {
+            throw new AliothException("OOPS!!! Invalid event format. Use: event <desc> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm");
         }
 
         String description = firstSplit[0].trim();
         String[] secondSplit = firstSplit[1].split(" /to ", 2);
 
-        if (secondSplit.length < 2) {
-            throw new AliothException("OOPS!!! Invalid event format.");
+        if (secondSplit.length != 2) {
+            throw new AliothException("OOPS!!! Invalid event format. Use: event <desc> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm");
         }
 
-        String from = secondSplit[0].trim();
-        String to = secondSplit[1].trim();
+        String fromString = secondSplit[0].trim();
+        String toString = secondSplit[1].trim();
 
-        if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
-            throw new AliothException("OOPS!!! Invalid event format.");
+        if (description.isEmpty() || fromString.isEmpty() || toString.isEmpty()) {
+            throw new AliothException("OOPS!!! Invalid event format. Use: event <desc> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm");
+        }
+
+        LocalDateTime from;
+        LocalDateTime to;
+        try {
+            from = LocalDateTime.parse(fromString, EVENT_INPUT_FORMAT);
+            to = LocalDateTime.parse(toString, EVENT_INPUT_FORMAT);
+        } catch (DateTimeParseException e) {
+            throw new AliothException("OOPS!!! Invalid event format. Use: event <desc> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm");
         }
 
         addTask(new Event(description, from, to));
