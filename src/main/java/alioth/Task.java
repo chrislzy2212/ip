@@ -28,6 +28,24 @@ public class Task {
     }
 
     /**
+     * Returns the description of this task.
+     *
+     * @return Description of the task.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Returns whether this task is done.
+     *
+     * @return True if done, false otherwise.
+     */
+    public boolean isDone() {
+        return isDone;
+    }
+
+    /**
      * Returns a string representation of this task.
      *
      * @return Task in the form "[X] description" or "[ ] description".
