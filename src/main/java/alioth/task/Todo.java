@@ -1,4 +1,4 @@
-package alioth;
+package alioth.task;
 
 /**
  * Represents a task without any date/time attached.

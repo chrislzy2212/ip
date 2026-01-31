@@ -1,4 +1,6 @@
-package alioth;
+package alioth.ui;
+
+import alioth.task.Task;
 
 import java.util.List;
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package alioth;
+package alioth.task;
 
 /**
  * Represents a task with a description and a completion status.

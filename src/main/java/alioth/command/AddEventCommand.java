@@ -1,4 +1,11 @@
-package alioth;
+package alioth.command;
+
+import alioth.*;
+import alioth.storage.Storage;
+import alioth.task.Event;
+import alioth.task.Task;
+import alioth.task.TaskList;
+import alioth.ui.Ui;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

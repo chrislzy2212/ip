@@ -1,26 +1,29 @@
-package alioth;
+package alioth.command;
+
+import alioth.*;
+import alioth.storage.Storage;
+import alioth.task.Task;
+import alioth.task.TaskList;
+import alioth.ui.Ui;
 
 /**
- * Deletes a task from the list.
+ * Marks a task as done.
  */
-public class DeleteCommand extends Command {
+public class MarkCommand extends Command {
     private final String args;
 
-    /**
-     * Creates a delete command with the given arguments.
-     *
-     * @param args User input arguments (expected: task number).
-     */
-    public DeleteCommand(String args) {
+    public MarkCommand(String args) {
         this.args = args;
     }
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws AliothException {
-        int index = parseTaskIndex(tasks, args, "delete");
-        Task removed = tasks.remove(index);
+        int index = parseTaskIndex(tasks, args, "mark");
 
-        ui.showDeleteTask(removed, tasks.size());
+        Task task = tasks.get(index);
+        task.setDone(true);
+
+        ui.showMarkTask(task);
         storage.save(tasks.asList());
     }
 

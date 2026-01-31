@@ -1,4 +1,4 @@
-package alioth;
+package alioth.task;
 
 import java.util.ArrayList;
 import java.util.List;

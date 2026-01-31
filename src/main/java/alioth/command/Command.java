@@ -1,4 +1,9 @@
-package alioth;
+package alioth.command;
+
+import alioth.AliothException;
+import alioth.storage.Storage;
+import alioth.task.TaskList;
+import alioth.ui.Ui;
 
 /**
  * Represents an executable user command.
