@@ -1,5 +1,7 @@
 package alioth;
 
+import alioth.command.*;
+
 /**
  * Parses user input into command objects.
  */

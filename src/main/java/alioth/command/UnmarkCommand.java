@@ -1,23 +1,33 @@
-package alioth;
+package alioth.command;
+
+import alioth.*;
+import alioth.storage.Storage;
+import alioth.task.Task;
+import alioth.task.TaskList;
+import alioth.ui.Ui;
 
 /**
- * Marks a task as done.
+ * Unmarks a task in the list as not done.
  */
-public class MarkCommand extends Command {
+public class UnmarkCommand extends Command {
     private final String args;
 
-    public MarkCommand(String args) {
+    /**
+     * Creates an unmark command with the given arguments.
+     *
+     * @param args User input arguments (expected: task number).
+     */
+    public UnmarkCommand(String args) {
         this.args = args;
     }
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws AliothException {
-        int index = parseTaskIndex(tasks, args, "mark");
-
+        int index = parseTaskIndex(tasks, args, "unmark");
         Task task = tasks.get(index);
-        task.setDone(true);
+        task.setDone(false);
 
-        ui.showMarkTask(task);
+        ui.showUnmarkTask(task);
         storage.save(tasks.asList());
     }
 

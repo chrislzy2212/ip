@@ -1,4 +1,11 @@
-package alioth;
+package alioth.command;
+
+import alioth.*;
+import alioth.storage.Storage;
+import alioth.task.Task;
+import alioth.task.TaskList;
+import alioth.task.Todo;
+import alioth.ui.Ui;
 
 /**
  * Adds a todo task.
