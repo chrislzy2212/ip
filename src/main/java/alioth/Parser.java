@@ -10,9 +10,7 @@ public class Parser {
     /**
      * Prevents instantiation of this utility class.
      */
-    private Parser() {
-        // Prevent instantiation
-    }
+    private Parser() {}
 
     /**
      * Parses the user input into a Command object.
