@@ -155,7 +155,7 @@ public class Alioth {
         try {
             byDate = LocalDate.parse(byString); // expects yyyy-MM-dd
         } catch (DateTimeParseException e) {
-            throw new AliothException("OOPS!!! Invalid date. Use yyyy-MM-dd (e.g., 2019-10-15).");
+            throw new AliothException("OOPS!!! Invalid deadline format. Use: deadline <desc> /by yyyy-MM-dd");
         }
 
         addTask(new Deadline(description, byDate));
@@ -190,7 +190,7 @@ public class Alioth {
             from = LocalDateTime.parse(fromString, EVENT_INPUT_FORMAT);
             to = LocalDateTime.parse(toString, EVENT_INPUT_FORMAT);
         } catch (DateTimeParseException e) {
-            throw new AliothException("OOPS!!! Invalid date/time. Use yyyy-MM-dd HHmm (e.g., 2019-10-15 1800).");
+            throw new AliothException("OOPS!!! Invalid event format. Use: event <desc> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm");
         }
 
         addTask(new Event(description, from, to));

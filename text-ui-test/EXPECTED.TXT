@@ -12,16 +12,16 @@ ____________________________________________________________
 OOPS!!! The description of a todo cannot be empty.
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! Invalid date. Use yyyy-MM-dd (e.g., 2019-10-15).
+OOPS!!! Invalid deadline format. Use: deadline <desc> /by yyyy-MM-dd
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! Invalid date. Use yyyy-MM-dd (e.g., 2019-10-15).
+OOPS!!! Invalid deadline format. Use: deadline <desc> /by yyyy-MM-dd
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! Invalid date/time. Use yyyy-MM-dd HHmm (e.g., 2019-10-15 1800).
+OOPS!!! Invalid event format. Use: event <desc> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
 ____________________________________________________________
 ____________________________________________________________
-OOPS!!! Invalid date/time. Use yyyy-MM-dd HHmm (e.g., 2019-10-15 1800).
+OOPS!!! Invalid event format. Use: event <desc> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm
 ____________________________________________________________
 ____________________________________________________________
 OOPS!!! I'm sorry, but I don't know what that means :-(
