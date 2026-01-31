@@ -2,7 +2,6 @@ package alioth;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,8 +14,7 @@ public class Alioth {
     private static final DateTimeFormatter EVENT_INPUT_FORMAT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
-    private static final String LINE = "____________________________________________________________";
-
+    private static final Ui ui = new Ui();
     private static final Storage storage = new Storage(Storage.getDefaultPath());
     private static final List<Task> tasks = new ArrayList<>();
 
@@ -26,26 +24,23 @@ public class Alioth {
      * @param args Command line arguments (unused).
      */
     public static void main(String[] args) {
-        printWelcome();
+        ui.showWelcome();
 
         try {
             tasks.addAll(storage.load());
         } catch (AliothException e) {
-            printError(e.getMessage());
+            ui.showError(e.getMessage());
         }
 
-        Scanner scanner = new Scanner(System.in);
-
         while (true) {
-            String input = scanner.nextLine();
-
+            String input = ui.readCommand();
             try {
                 boolean shouldExit = handleInput(input);
                 if (shouldExit) {
                     break;
                 }
             } catch (AliothException e) {
-                printError(e.getMessage());
+                ui.showError(e.getMessage());
             }
         }
     }
@@ -56,12 +51,12 @@ public class Alioth {
         }
 
         if (input.equals("bye")) {
-            printBye();
+            ui.showBye();
             return true;
         }
 
         if (input.equals("list")) {
-            printList();
+            ui.showTasks(tasks);
             return false;
         }
 
@@ -113,16 +108,12 @@ public class Alioth {
     private static void addTask(Task task) {
         tasks.add(task);
 
-        System.out.println(LINE);
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-        System.out.println(LINE);
+        ui.showAddTask(task, tasks.size());
 
         try {
             storage.save(tasks);
         } catch (AliothException e) {
-            printError(e.getMessage());
+            ui.showError(e.getMessage());
         }
     }
 
@@ -201,15 +192,12 @@ public class Alioth {
         Task task = tasks.get(index);
         task.setDone(true);
 
-        System.out.println(LINE);
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println("  " + task);
-        System.out.println(LINE);
+        ui.showMarkTask(task);
 
         try {
             storage.save(tasks);
         } catch (AliothException e) {
-            printError(e.getMessage());
+            ui.showError(e.getMessage());
         }
     }
 
@@ -218,15 +206,12 @@ public class Alioth {
         Task task = tasks.get(index);
         task.setDone(false);
 
-        System.out.println(LINE);
-        System.out.println("OK, I've marked this task as not done yet:");
-        System.out.println("  " + task);
-        System.out.println(LINE);
+        ui.showUnmarkTask(task);
 
         try {
             storage.save(tasks);
         } catch (AliothException e) {
-            printError(e.getMessage());
+            ui.showError(e.getMessage());
         }
     }
 
@@ -234,16 +219,12 @@ public class Alioth {
         int index = parseTaskIndex(input, "delete");
         Task removed = tasks.remove(index);
 
-        System.out.println(LINE);
-        System.out.println("Noted. I've removed this task:");
-        System.out.println("  " + removed);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-        System.out.println(LINE);
+        ui.showDeleteTask(removed, tasks.size());
 
         try {
             storage.save(tasks);
         } catch (AliothException e) {
-            printError(e.getMessage());
+            ui.showError(e.getMessage());
         }
     }
 
@@ -266,35 +247,5 @@ public class Alioth {
         }
 
         return taskNumber - 1;
-    }
-
-    private static void printList() {
-        System.out.println(LINE);
-        System.out.println("Here are the tasks in your list:");
-
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i));
-        }
-
-        System.out.println(LINE);
-    }
-
-    private static void printError(String message) {
-        System.out.println(LINE);
-        System.out.println(message);
-        System.out.println(LINE);
-    }
-
-    private static void printWelcome() {
-        System.out.println(LINE);
-        System.out.println("Hello! I'm Alioth");
-        System.out.println("What can I do for you?");
-        System.out.println(LINE);
-    }
-
-    private static void printBye() {
-        System.out.println(LINE);
-        System.out.println("Bye. Hope to see you again soon!");
-        System.out.println(LINE);
     }
 }
