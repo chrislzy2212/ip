@@ -16,7 +16,7 @@ public class Alioth {
 
     private static final Ui ui = new Ui();
     private static final Storage storage = new Storage(Storage.getDefaultPath());
-    private static final List<Task> tasks = new ArrayList<>();
+    private static final TaskList tasks = new TaskList();
 
     /**
      * Starts the chatbot.
@@ -27,7 +27,7 @@ public class Alioth {
         ui.showWelcome();
 
         try {
-            tasks.addAll(storage.load());
+            tasks.asList().addAll(storage.load());
         } catch (AliothException e) {
             ui.showError(e.getMessage());
         }
@@ -56,7 +56,7 @@ public class Alioth {
         }
 
         if (input.equals("list")) {
-            ui.showTasks(tasks);
+            ui.showTasks(tasks.asList());
             return false;
         }
 
@@ -111,7 +111,7 @@ public class Alioth {
         ui.showAddTask(task, tasks.size());
 
         try {
-            storage.save(tasks);
+            storage.save(tasks.asList());
         } catch (AliothException e) {
             ui.showError(e.getMessage());
         }
@@ -195,7 +195,7 @@ public class Alioth {
         ui.showMarkTask(task);
 
         try {
-            storage.save(tasks);
+            storage.save(tasks.asList());
         } catch (AliothException e) {
             ui.showError(e.getMessage());
         }
@@ -209,7 +209,7 @@ public class Alioth {
         ui.showUnmarkTask(task);
 
         try {
-            storage.save(tasks);
+            storage.save(tasks.asList());
         } catch (AliothException e) {
             ui.showError(e.getMessage());
         }
@@ -222,7 +222,7 @@ public class Alioth {
         ui.showDeleteTask(removed, tasks.size());
 
         try {
-            storage.save(tasks);
+            storage.save(tasks.asList());
         } catch (AliothException e) {
             ui.showError(e.getMessage());
         }
