@@ -1,11 +1,11 @@
 package alioth;
 
+import java.nio.file.Paths;
+
 import alioth.command.Command;
 import alioth.storage.Storage;
 import alioth.task.TaskList;
 import alioth.ui.Ui;
-
-import java.nio.file.Paths;
 
 /**
  * A chatbot that can store tasks of different types and display them on request.

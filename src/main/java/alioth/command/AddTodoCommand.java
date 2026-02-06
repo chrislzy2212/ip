@@ -1,6 +1,7 @@
 package alioth.command;
 
-import alioth.*;
+import alioth.AliothException;
+import alioth.Message;
 import alioth.storage.Storage;
 import alioth.task.Task;
 import alioth.task.TaskList;

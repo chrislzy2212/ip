@@ -1,14 +1,15 @@
 package alioth.command;
 
-import alioth.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
+import alioth.AliothException;
+import alioth.Message;
 import alioth.storage.Storage;
 import alioth.task.Deadline;
 import alioth.task.Task;
 import alioth.task.TaskList;
 import alioth.ui.Ui;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 
 /**
  * Adds a deadline task.
@@ -19,7 +20,7 @@ public class AddDeadlineCommand extends Command {
     /**
      * Creates an add deadline command with the given arguments.
      *
-     * @param args User input arguments (expected: <desc> /by yyyy-MM-dd).
+     * @param args User input arguments (expected: description /by yyyy-MM-dd).
      */
     public AddDeadlineCommand(String args) {
         this.args = args;
