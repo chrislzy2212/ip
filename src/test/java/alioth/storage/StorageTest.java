@@ -1,5 +1,7 @@
 package alioth.storage;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -7,14 +9,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import alioth.task.Task;
-import alioth.task.Todo;
-import alioth.task.Deadline;
-import alioth.task.Event;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import alioth.task.Deadline;
+import alioth.task.Event;
+import alioth.task.Task;
+import alioth.task.Todo;
 
 public class StorageTest {
 

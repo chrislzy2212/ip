@@ -1,9 +1,9 @@
 package alioth.ui;
 
-import alioth.task.Task;
-
 import java.util.List;
 import java.util.Scanner;
+
+import alioth.task.Task;
 
 /**
  * Handles user interaction (input and output) for the chatbot.

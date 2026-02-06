@@ -1,15 +1,16 @@
 package alioth.command;
 
-import alioth.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+import alioth.AliothException;
+import alioth.Message;
 import alioth.storage.Storage;
 import alioth.task.Event;
 import alioth.task.Task;
 import alioth.task.TaskList;
 import alioth.ui.Ui;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 /**
  * Adds an event task.
@@ -23,7 +24,7 @@ public class AddEventCommand extends Command {
     /**
      * Creates an add event command with the given arguments.
      *
-     * @param args User input arguments (expected: <desc> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm).
+     * @param args User input arguments (expected: description /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm).
      */
     public AddEventCommand(String args) {
         this.args = args;
