@@ -61,4 +61,21 @@ public class Alioth {
             }
         }
     }
+
+    /**
+     * Returns Alioth's response to the user's input.
+     * This is used by the GUI to get a reply string to display.
+     *
+     * @param input Full user input.
+     * @return The response message to display.
+     */
+    public String getResponse(String input) {
+        try {
+            Command command = Parser.parse(input);
+            command.execute(tasks, ui, storage);
+            return ui.consumeOutput();
+        } catch (AliothException e) {
+            return ui.formatError(e.getMessage());
+        }
+    }
 }
