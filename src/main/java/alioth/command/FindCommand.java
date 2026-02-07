@@ -1,6 +1,7 @@
 package alioth.command;
 
 import alioth.AliothException;
+import alioth.Message;
 import alioth.storage.Storage;
 import alioth.task.TaskList;
 import alioth.ui.Ui;
@@ -24,7 +25,7 @@ public class FindCommand extends Command {
     public void execute(TaskList tasks, Ui ui, Storage storage) throws AliothException {
         String keyword = args.trim();
         if (keyword.isEmpty()) {
-            throw new AliothException("OOPS!!! The keyword cannot be empty.");
+            throw new AliothException(Message.INVALID_FIND.getText());
         }
 
         ui.showMatchingTasks(tasks.find(keyword));

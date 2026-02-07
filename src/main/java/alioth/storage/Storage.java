@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alioth.AliothException;
+import alioth.Message;
 import alioth.task.Deadline;
 import alioth.task.Event;
 import alioth.task.Task;
@@ -51,7 +52,7 @@ public class Storage {
         try {
             lines = Files.readAllLines(filePath);
         } catch (IOException e) {
-            throw new AliothException("OOPS!!! Could not read from the save file.");
+            throw new AliothException(Message.SAVE_ERROR.getText());
         }
 
         List<Task> tasks = new ArrayList<>();
@@ -84,7 +85,7 @@ public class Storage {
 
             Files.write(filePath, lines);
         } catch (IOException e) {
-            throw new AliothException("OOPS!!! Could not save tasks to the save file.");
+            throw new AliothException(Message.SAVE_ERROR.getText());
         }
     }
 
