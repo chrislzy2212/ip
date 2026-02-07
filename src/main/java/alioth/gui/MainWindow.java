@@ -24,8 +24,8 @@ public class MainWindow extends AnchorPane {
 
     private Alioth alioth;
 
-    private Image userImage;
-    private Image aliothImage;
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/Vanellope.png"));
+    private Image aliothImage = new Image(this.getClass().getResourceAsStream("/images/Sofia.png"));
 
     /**
      * Initializes the UI components after the FXML file has been loaded.
@@ -34,8 +34,7 @@ public class MainWindow extends AnchorPane {
      */
     @FXML
     public void initialize() {
-        userImage = new Image(getClass().getResourceAsStream("/images/Vanellope.png"));
-        aliothImage = new Image(getClass().getResourceAsStream("/images/Sofia.png"));
+        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
     /**
@@ -45,7 +44,14 @@ public class MainWindow extends AnchorPane {
      */
     public void setAlioth(Alioth a) {
         alioth = a;
+
+        String welcome = alioth.getWelcomeMessage();
+        dialogContainer.getChildren().add(
+                DialogBox.getAliothDialog(welcome, aliothImage)
+        );
     }
+
+
 
     /**
      * Handles user input by creating dialog boxes and appending them.
@@ -65,8 +71,6 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getAliothDialog(response, aliothImage)
         );
-
-        scrollPane.setVvalue(1.0);
 
         userInput.clear();
     }
