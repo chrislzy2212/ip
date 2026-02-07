@@ -51,8 +51,6 @@ public class MainWindow extends AnchorPane {
         );
     }
 
-
-
     /**
      * Handles user input by creating dialog boxes and appending them.
      */
