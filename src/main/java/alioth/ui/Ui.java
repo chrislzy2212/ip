@@ -41,6 +41,28 @@ public class Ui {
     }
 
     /**
+     * Appends multiple lines to the output buffer.
+     *
+     * @param lines Lines to add.
+     */
+    private void addLines(String... lines) {
+        for (String line : lines) {
+            addLine(line);
+        }
+    }
+
+    /**
+     * Appends a standard output block wrapped by separator lines.
+     *
+     * @param lines Content lines inside the block.
+     */
+    private void addBlock(String... lines) {
+        showLine();
+        addLines(lines);
+        showLine();
+    }
+
+    /**
      * Returns the buffered output and clears it.
      *
      * @return Output content since the last consume.
@@ -76,19 +98,14 @@ public class Ui {
      * Prints the welcome message.
      */
     public void showWelcome() {
-        showLine();
-        addLine("Hello! I'm Alioth");
-        addLine("What can I do for you?");
-        showLine();
+        addBlock("Hello! I'm Alioth", "What can I do for you?");
     }
 
     /**
      * Prints the goodbye message.
      */
     public void showBye() {
-        showLine();
-        addLine("Bye. Hope to see you again soon!");
-        showLine();
+        addBlock("Bye. Hope to see you again soon!");
     }
 
     /**
@@ -97,9 +114,7 @@ public class Ui {
      * @param message Error message to display.
      */
     public void showError(String message) {
-        showLine();
-        addLine(message);
-        showLine();
+        addBlock(message);
     }
 
     /**
