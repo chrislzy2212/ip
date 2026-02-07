@@ -35,30 +35,29 @@ public class Alioth {
     }
 
     /**
-     * Starts the chatbot.
+     * Returns the welcome message for display in the GUI.
      *
-     * @param args Command line arguments (unused).
+     * @return Welcome message.
      */
-    public static void main(String[] args) {
-        new Alioth("data/alioth.txt").run();
+    public String getWelcomeMessage() {
+        ui.showWelcome();
+        return ui.consumeOutput();
     }
 
     /**
-     * Runs the chatbot until the user exits.
+     * Returns Alioth's response to the user's input.
+     * This is used by the GUI to get a reply string to display.
+     *
+     * @param input Full user input.
+     * @return The response message to display.
      */
-    public void run() {
-        ui.showWelcome();
-        boolean isExit = false;
-
-        while (!isExit) {
-            try {
-                String fullCommand = ui.readCommand();
-                Command c = Parser.parse(fullCommand);
-                c.execute(tasks, ui, storage);
-                isExit = c.isExit();
-            } catch (AliothException e) {
-                ui.showError(e.getMessage());
-            }
+    public String getResponse(String input) {
+        try {
+            Command command = Parser.parse(input);
+            command.execute(tasks, ui, storage);
+            return ui.consumeOutput();
+        } catch (AliothException e) {
+            return ui.formatError(e.getMessage());
         }
     }
 }
