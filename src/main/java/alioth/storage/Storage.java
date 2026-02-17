@@ -97,78 +97,101 @@ public class Storage {
      * @return Task or null if line is invalid.
      */
     private Task parseLineToTask(String line) {
-        String[] parts = line.split(" \\| ");
-
-        if (parts.length < 3) {
-            return null; // corrupted line
+        String[] parts = splitLine(line);
+        if (parts == null) {
+            return null;
         }
 
         String type = parts[0].trim();
-        String doneFlag = parts[1].trim();
+        Boolean isDone = parseDoneFlag(parts[1].trim());
         String description = parts[2].trim();
 
-        if (description.isEmpty()) {
+        if (isDone == null || description.isEmpty()) {
             return null;
         }
 
-        boolean isDone;
-        if (doneFlag.equals("1")) {
-            isDone = true;
-        } else if (doneFlag.equals("0")) {
-            isDone = false;
-        } else {
-            return null;
-        }
-
-        Task task;
-        if (type.equals("T")) {
-            if (parts.length != 3) {
-                return null;
-            }
-            task = new Todo(description);
-        } else if (type.equals("D")) {
-            if (parts.length != 4) {
-                return null;
-            }
-            String byString = parts[3].trim();
-            if (byString.isEmpty()) {
-                return null;
-            }
-
-            LocalDate by;
-            try {
-                by = LocalDate.parse(byString); // yyyy-MM-dd
-            } catch (DateTimeParseException e) {
-                return null;
-            }
-
-            task = new Deadline(description, by);
-        } else if (type.equals("E")) {
-            if (parts.length != 5) {
-                return null;
-            }
-            String fromString = parts[3].trim();
-            String toString = parts[4].trim();
-            if (fromString.isEmpty() || toString.isEmpty()) {
-                return null;
-            }
-
-            LocalDateTime from;
-            LocalDateTime to;
-            try {
-                from = LocalDateTime.parse(fromString, EVENT_FILE_FORMAT);
-                to = LocalDateTime.parse(toString, EVENT_FILE_FORMAT);
-            } catch (DateTimeParseException e) {
-                return null;
-            }
-
-            task = new Event(description, from, to);
-        } else {
+        Task task = createTaskFromParts(type, description, parts);
+        if (task == null) {
             return null;
         }
 
         task.setDone(isDone);
         return task;
+    }
+
+    private String[] splitLine(String line) {
+        String[] parts = line.split(" \\| ");
+        if (parts.length < 3) {
+            return null;
+        }
+        return parts;
+    }
+
+    private Boolean parseDoneFlag(String doneFlag) {
+        if (doneFlag.equals("1")) {
+            return true;
+        }
+        if (doneFlag.equals("0")) {
+            return false;
+        }
+        return null;
+    }
+
+    private Task createTaskFromParts(String type, String description, String[] parts) {
+        if (type.equals("T")) {
+            return createTodo(description, parts);
+        }
+        if (type.equals("D")) {
+            return createDeadline(description, parts);
+        }
+        if (type.equals("E")) {
+            return createEvent(description, parts);
+        }
+        return null;
+    }
+
+    private Task createTodo(String description, String[] parts) {
+        if (parts.length != 3) {
+            return null;
+        }
+        return new Todo(description);
+    }
+
+    private Task createDeadline(String description, String[] parts) {
+        if (parts.length != 4) {
+            return null;
+        }
+        String byString = parts[3].trim();
+        if (byString.isEmpty()) {
+            return null;
+        }
+
+        try {
+            LocalDate by = LocalDate.parse(byString); // yyyy-MM-dd
+            return new Deadline(description, by);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
+    }
+
+    private Task createEvent(String description, String[] parts) {
+        if (parts.length != 5) {
+            return null;
+        }
+
+        String fromString = parts[3].trim();
+        String toString = parts[4].trim();
+        if (fromString.isEmpty() || toString.isEmpty()) {
+            return null;
+        }
+
+        try {
+            LocalDateTime from = LocalDateTime.parse(fromString, EVENT_FILE_FORMAT);
+            LocalDateTime to = LocalDateTime.parse(toString, EVENT_FILE_FORMAT);
+            return new Event(description, from, to);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
     }
 
     /**
