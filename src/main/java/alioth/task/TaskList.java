@@ -87,6 +87,6 @@ public class TaskList {
      * @return The list of tasks.
      */
     public List<Task> asList() {
-        return tasks;
+        return new ArrayList<>(tasks);
     }
 }
