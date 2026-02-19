@@ -67,6 +67,7 @@ public class Alioth {
             command.execute(tasks, ui, storage);
             return ui.consumeOutput();
         } catch (AliothException e) {
+            ui.clearOutput();
             return ui.formatError(e.getMessage());
         }
     }

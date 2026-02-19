@@ -75,6 +75,13 @@ public class Ui {
     }
 
     /**
+     * Clears the current output buffer without returning the text.
+     */
+    public void clearOutput() {
+        output.setLength(0);
+    }
+
+    /**
      * Formats an error message in a standard UI block.
      *
      * @param message Error message.
