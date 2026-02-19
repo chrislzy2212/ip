@@ -10,7 +10,7 @@ import alioth.command.FindCommand;
 import alioth.command.ListCommand;
 import alioth.command.MarkCommand;
 import alioth.command.UnmarkCommand;
-
+import alioth.task.TaskList;
 /**
  * Parses user input into command objects.
  */
@@ -120,5 +120,28 @@ public class Parser {
         }
 
         return taskNumber;
+    }
+
+    /**
+     * Parses and validates a 1-based task index from the given arguments.
+     *
+     * Ensures the parsed task number refers to an existing task in the
+     * provided TaskList, then converts it to a 0-based index for internal use.
+     *
+     * @param tasks The task list used to validate the index range.
+     * @param args The argument string expected to contain the task number.
+     * @param commandWord The command word (used to construct error messages).
+     * @return The validated 0-based task index.
+     * @throws AliothException If the task number is missing, not an integer,
+     *                         or outside the valid range.
+     */
+    public static int parseTaskIndex(TaskList tasks, String args, String commandWord) throws AliothException {
+        int taskNumber = parseTaskNumber(args, commandWord);
+
+        if (taskNumber < 1 || taskNumber > tasks.size()) {
+            throw new AliothException(Message.invalidIndexCommand(commandWord).getText());
+        }
+
+        return taskNumber - 1; // convert to 0-based index
     }
 }
