@@ -78,10 +78,9 @@ public class Storage {
                 Files.createDirectories(parent); // creates ./data if missing
             }
 
-            List<String> lines = new ArrayList<>();
-            for (Task task : tasks) {
-                lines.add(convertTaskToLine(task));
-            }
+            List<String> lines = tasks.stream()
+                    .map(this::convertTaskToLine)
+                    .toList();
 
             Files.write(filePath, lines);
         } catch (IOException e) {
