@@ -22,6 +22,7 @@ public class TaskList {
      * @param tasks The list of tasks to copy from.
      */
     public TaskList(List<Task> tasks) {
+        assert tasks != null : "Task list to copy should not be null";
         this.tasks = new ArrayList<>(tasks);
     }
 
@@ -31,6 +32,7 @@ public class TaskList {
      * @param task Task to add.
      */
     public void add(Task task) {
+        assert task != null : "TaskList should not add null task";
         tasks.add(task);
     }
 
@@ -87,6 +89,6 @@ public class TaskList {
      * @return The list of tasks.
      */
     public List<Task> asList() {
-        return tasks;
+        return new ArrayList<>(tasks);
     }
 }

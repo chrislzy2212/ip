@@ -1,6 +1,7 @@
 package alioth.gui;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import alioth.Alioth;
 import javafx.application.Application;
@@ -13,7 +14,7 @@ import javafx.stage.Stage;
  * A GUI for Alioth using FXML.
  */
 public class MainApp extends Application {
-    private final Alioth alioth = new Alioth("data/alioth.txt");
+    private final Alioth alioth = new Alioth(Paths.get("data", "alioth.txt"));
 
     @Override
     public void start(Stage stage) {
@@ -25,6 +26,7 @@ public class MainApp extends Application {
             stage.setScene(scene);
 
             MainWindow controller = fxmlLoader.getController();
+            assert controller != null : "Failed to get controller in MainApp";
             controller.setAlioth(alioth);
 
             stage.show();
