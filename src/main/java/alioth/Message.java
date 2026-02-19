@@ -36,6 +36,7 @@ public enum Message {
     /**
      * Returns the corresponding invalid-index message for the given command word.
      *
+     * @param commandWord The command word (e.g., "mark", "unmark", "delete").
      * @return The message corresponding to the command word, or UNKNOWN_COMMAND if none matches.
      */
     public static Message invalidIndexCommand(String commandWord) {
@@ -47,7 +48,7 @@ public enum Message {
         case "delete":
             return INVALID_DELETE;
         default:
-            return UNKNOWN_COMMAND;
+            return UNKNOWN_COMMAND; // fallback; shouldn't happen if you use it correctly
         }
     }
 }

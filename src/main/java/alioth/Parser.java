@@ -29,8 +29,6 @@ public class Parser {
      * @throws AliothException If the input is invalid or the command is unknown.
      */
     public static Command parse(String input) throws AliothException {
-        assert input != null : "Parser.parse input should not be null";
-
         if (!input.equals(input.stripLeading())) {
             throw new AliothException(Message.LEADING_SPACES.getText());
         }
