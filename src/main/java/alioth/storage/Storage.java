@@ -3,12 +3,16 @@ package alioth.storage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import alioth.AliothException;
 import alioth.Message;
@@ -24,8 +28,8 @@ public class Storage {
     private static final DateTimeFormatter EVENT_FILE_FORMAT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
+    private static final Path ALIAS_PATH = Paths.get("data", "aliases.txt");
     private final Path filePath;
-
     /**
      * Creates a storage that saves to the given relative path.
      *
@@ -221,5 +225,50 @@ public class Storage {
         }
 
         return "T | " + doneFlag + " | " + task.getDescription();
+    }
+
+    /**
+     * Loads aliases from disk.
+     * If the aliases file does not exist, returns an empty map.
+     *
+     * @return Map of alias word to command word.
+     * @throws AliothException If there is an IO problem reading the aliases file.
+     */
+    public Map<String, String> loadAliases() throws AliothException {
+        if (!Files.exists(ALIAS_PATH)) {
+            return new HashMap<>();
+        }
+
+        try {
+            return Files.readAllLines(ALIAS_PATH).stream()
+                    .map(line -> line.split(" \\| ", 2))
+                    .filter(parts -> parts.length == 2)
+                    .collect(Collectors.toMap(
+                            parts -> parts[0].trim(),
+                            parts -> parts[1].trim()
+                    ));
+        } catch (IOException e) {
+            throw new AliothException(Message.SAVE_ERROR.getText());
+        }
+    }
+
+    /**
+     * Saves aliases to disk. Creates the folder/file if needed.
+     *
+     * @param aliases Map of alias word to command word.
+     * @throws AliothException If there is an IO problem writing the aliases file.
+     */
+    public void saveAliases(Map<String, String> aliases) throws AliothException {
+        try {
+            Files.createDirectories(ALIAS_PATH.getParent());
+
+            List<String> lines = aliases.entrySet().stream()
+                    .map(e -> e.getKey() + " | " + e.getValue())
+                    .toList();
+
+            Files.write(ALIAS_PATH, lines);
+        } catch (IOException e) {
+            throw new AliothException(Message.SAVE_ERROR.getText());
+        }
     }
 }

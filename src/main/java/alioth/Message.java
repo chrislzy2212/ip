@@ -16,6 +16,15 @@ public enum Message {
     INVALID_DELETE("OOPS!!! Invalid delete format. Use: delete <task number>"),
     INVALID_FIND("OOPS!!! Invalid find format. Use: find <keyword>"),
 
+    // Aliases
+    INVALID_ALIAS("OOPS!!! Invalid alias format. Use: alias <alias> <command>"),
+    INVALID_UNALIAS("OOPS!!! Invalid unalias format. Use: unalias <alias>"),
+    INVALID_ALIAS_WORD("OOPS!!! Alias and command must be letters only."),
+    ALIAS_ALREADY_EXISTS("OOPS!!! Alias already exists: %s"),
+    NO_SUCH_ALIAS("OOPS!!! No such alias: %s"),
+    ALIAS_IS_COMMAND_WORD("OOPS!!! '%s' is an existing command word."),
+    UNKNOWN_ALIAS_TARGET("OOPS!!! Unknown command: %s"),
+
     SAVE_ERROR("OOPS!!! Could not save tasks to the save file.");
 
     private final String text;
@@ -34,6 +43,16 @@ public enum Message {
     }
 
     /**
+     * Returns formatted message text.
+     *
+     * @param args Formatting arguments.
+     * @return Formatted message text.
+     */
+    public String format(Object... args) {
+        return String.format(text, args);
+    }
+
+    /**
      * Returns the corresponding invalid-index message for the given command word.
      *
      * @return The message corresponding to the command word, or UNKNOWN_COMMAND if none matches.
@@ -49,5 +68,15 @@ public enum Message {
         default:
             return UNKNOWN_COMMAND;
         }
+    }
+
+    /**
+     * Returns an unknown-command message for a specific command word.
+     *
+     * @param commandWord The unknown command word.
+     * @return A formatted unknown-command message.
+     */
+    public static String unknownCommand(String commandWord) {
+        return "OOPS!!! Unknown command: " + commandWord;
     }
 }
