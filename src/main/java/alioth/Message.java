@@ -34,6 +34,7 @@ public enum Message {
     ALIAS_IS_COMMAND_WORD("%s is a royal word already. You cannot change a king's command!"),
     UNKNOWN_ALIAS_TARGET("Heigh-ho! I don't know the command for: %s"),
 
+    DUPLICATE("Oh heavens! This task already exists in your royal records."),
     SAVE_ERROR("Oh no! The magic mirror has clouded over. I could not save your tasks.");
 
     private final String text;

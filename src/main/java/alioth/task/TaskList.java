@@ -84,4 +84,16 @@ public class TaskList {
     public List<Task> asList() {
         return new ArrayList<>(tasks);
     }
+
+    /**
+     * Checks if a task already exists in the royal records to prevent duplicates.
+     * It compares the string representation of the new task with existing ones.
+     *
+     * @param newTask The task to check for in the kingdom.
+     * @return True if an identical task is already in the list, false otherwise.
+     */
+    public boolean containsDuplicate(Task newTask) {
+        return tasks.stream().anyMatch(task ->
+                task.toString().equals(newTask.toString())); //
+    }
 }
