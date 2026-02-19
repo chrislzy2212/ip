@@ -10,6 +10,7 @@ public enum Message {
     INVALID_TODO("OOPS!!! Invalid todo format. Use: todo <description>"),
     INVALID_DEADLINE("OOPS!!! Invalid deadline format. Use: deadline <desc> /by yyyy-MM-dd"),
     INVALID_EVENT("OOPS!!! Invalid event format. Use: event <desc> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm"),
+    EVENT_CHRONOLOGY("OOPS!!! The start time (/from) must be before the end time (/to)."),
 
     INVALID_MARK("OOPS!!! Invalid mark format. Use: mark <task number>"),
     INVALID_UNMARK("OOPS!!! Invalid unmark format. Use: unmark <task number>"),

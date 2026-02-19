@@ -9,8 +9,6 @@ import alioth.ui.Ui;
 
 /**
  * Adds a user-defined alias for an existing command word.
- *
- * Syntax: alias <alias> <command>
  */
 public class AliasCommand extends Command {
     private final String args;
