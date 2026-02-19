@@ -1,6 +1,6 @@
 package alioth;
 
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 import alioth.command.Command;
 import alioth.storage.Storage;
@@ -20,9 +20,11 @@ public class Alioth {
      *
      * @param filePath File path for the storage file.
      */
-    public Alioth(String filePath) {
+    public Alioth(Path filePath) {
+        assert filePath != null : "Storage path should not be null";
+
         ui = new Ui();
-        storage = new Storage(Paths.get(filePath));
+        storage = new Storage(filePath);
 
         TaskList tempTasks;
         try {

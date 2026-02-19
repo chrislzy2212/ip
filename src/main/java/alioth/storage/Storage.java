@@ -3,7 +3,6 @@ package alioth.storage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +32,7 @@ public class Storage {
      * @param filePath Path to the save file.
      */
     public Storage(Path filePath) {
+        assert filePath != null : "Storage filePath should not be null";
         this.filePath = filePath;
     }
 
@@ -72,6 +72,8 @@ public class Storage {
      * @throws AliothException If there is an IO problem.
      */
     public void save(List<Task> tasks) throws AliothException {
+        assert tasks != null : "Tasks list to save should not be null";
+
         try {
             Path parent = filePath.getParent();
             if (parent != null) {
@@ -197,14 +199,5 @@ public class Storage {
         }
 
         return "T | " + doneFlag + " | " + task.getDescription();
-    }
-
-    /**
-     * Creates the default storage file path.
-     *
-     * @return Default save file path.
-     */
-    public static Path getDefaultPath() {
-        return Paths.get("data", "alioth.txt");
     }
 }
