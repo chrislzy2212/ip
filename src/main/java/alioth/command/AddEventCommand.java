@@ -52,12 +52,17 @@ public class AddEventCommand extends Command {
         if (description.isEmpty() || fromString.isEmpty() || toString.isEmpty()) {
             throw new AliothException(Message.INVALID_EVENT.getText());
         }
-
         LocalDateTime from;
         LocalDateTime to;
         try {
             from = LocalDateTime.parse(fromString, EVENT_INPUT_FORMAT);
             to = LocalDateTime.parse(toString, EVENT_INPUT_FORMAT);
+
+            // Add this validation check here:
+            if (from.isAfter(to)) {
+                throw new AliothException(Message.EVENT_CHRONOLOGY.getText());
+            }
+
         } catch (DateTimeParseException e) {
             throw new AliothException(Message.INVALID_EVENT.getText());
         }
