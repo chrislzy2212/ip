@@ -9,8 +9,6 @@ import alioth.ui.Ui;
 
 /**
  * Removes a user-defined alias.
- *
- * Syntax: unalias <alias>
  */
 public class UnaliasCommand extends Command {
     private final String args;
