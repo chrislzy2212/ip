@@ -63,17 +63,10 @@ public class TaskList {
      * @return List of matching tasks.
      */
     public List<Task> find(String keyword) {
-        List<Task> matches = new ArrayList<>();
-
-        for (Task task : tasks) {
-            if (task.getDescription().contains(keyword)) {
-                matches.add(task);
-            }
-        }
-
-        return matches;
+        return tasks.stream()
+                .filter(task -> task.getDescription().contains(keyword))
+                .toList();
     }
-
     /**
      * Returns the number of tasks in the task list.
      *
