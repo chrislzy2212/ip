@@ -207,24 +207,25 @@ public class Storage {
      */
     private String convertTaskToLine(Task task) {
         String doneFlag = task.isDone() ? "1" : "0";
+        String desc = task.getDescription().replace("|", "-");
 
         if (task instanceof Todo) {
-            return "T | " + doneFlag + " | " + task.getDescription();
+            return "T | " + doneFlag + " | " + desc;
         }
 
         if (task instanceof Deadline) {
             Deadline d = (Deadline) task;
-            return "D | " + doneFlag + " | " + task.getDescription() + " | " + d.getBy();
+            return "D | " + doneFlag + " | " + desc + " | " + d.getBy();
         }
 
         if (task instanceof Event) {
             Event e = (Event) task;
-            return "E | " + doneFlag + " | " + task.getDescription()
+            return "E | " + doneFlag + " | " + desc
                     + " | " + e.getFrom().format(EVENT_FILE_FORMAT)
                     + " | " + e.getTo().format(EVENT_FILE_FORMAT);
         }
 
-        return "T | " + doneFlag + " | " + task.getDescription();
+        return "T | " + doneFlag + " | " + desc;
     }
 
     /**
