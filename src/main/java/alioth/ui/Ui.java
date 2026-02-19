@@ -1,6 +1,7 @@
 package alioth.ui;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import alioth.task.Task;
@@ -118,17 +119,45 @@ public class Ui {
     }
 
     /**
+     * Prints a normal informational message.
+     *
+     * @param message Message to display.
+     */
+    public void showMessage(String message) {
+        addBlock(message);
+    }
+
+    /**
+     * Prints tasks in a standard numbered list block.
+     *
+     * @param header Header text to show above the list.
+     * @param tasks Tasks to display.
+     */
+    private void showTaskList(String header, List<Task> tasks) {
+        showLine();
+        addLine(header);
+        for (int i = 0; i < tasks.size(); i++) {
+            addLine((i + 1) + ". " + tasks.get(i));
+        }
+        showLine();
+    }
+
+    /**
      * Prints all tasks in the provided list.
      *
      * @param tasks Tasks to display.
      */
     public void showTasks(List<Task> tasks) {
-        showLine();
-        addLine("Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            addLine((i + 1) + "." + tasks.get(i));
-        }
-        showLine();
+        showTaskList("Here are the tasks in your list:", tasks);
+    }
+
+    /**
+     * Shows tasks that match the given keyword.
+     *
+     * @param tasks Matching tasks to display.
+     */
+    public void showMatchingTasks(List<Task> tasks) {
+        showTaskList("Here are the matching tasks in your list:", tasks);
     }
 
     /**
@@ -172,7 +201,7 @@ public class Ui {
     }
 
     /**
-     * Prints confirmation after unmarking a task.
+     * Prints confirmation after unmarking a task as not done.
      *
      * @param task Task that was unmarked.
      */
@@ -184,15 +213,38 @@ public class Ui {
     }
 
     /**
-     * Shows tasks that match the given keyword.
+     * Shows a confirmation message after adding an alias.
      *
-     * @param tasks Matching tasks to display.
+     * @param aliasWord Alias word added by the user.
+     * @param targetCommandWord The command word the alias maps to.
      */
-    public void showMatchingTasks(List<Task> tasks) {
+    public void showAliasAdded(String aliasWord, String targetCommandWord) {
+        showMessage("Alias added: " + aliasWord + " -> " + targetCommandWord);
+    }
+
+    /**
+     * Shows a confirmation message after removing an alias.
+     *
+     * @param aliasWord Alias word removed by the user.
+     */
+    public void showAliasRemoved(String aliasWord) {
+        showMessage("Alias removed: " + aliasWord);
+    }
+
+    /**
+     * Shows all current aliases.
+     *
+     * @param aliases Map of aliases to target command words.
+     */
+    public void showAliases(Map<String, String> aliases) {
         showLine();
-        addLine("Here are the matching tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            addLine((i + 1) + "." + tasks.get(i));
+        if (aliases.isEmpty()) {
+            addLine("No aliases defined.");
+        } else {
+            addLine("Aliases:");
+            for (Map.Entry<String, String> entry : aliases.entrySet()) {
+                addLine("  " + entry.getKey() + " -> " + entry.getValue());
+            }
         }
         showLine();
     }

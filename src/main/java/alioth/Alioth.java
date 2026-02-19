@@ -26,6 +26,14 @@ public class Alioth {
         ui = new Ui();
         storage = new Storage(filePath);
 
+        // Alias persistence setup
+        Parser.setStorage(storage);
+        try {
+            Parser.loadAliases();
+        } catch (AliothException e) {
+            ui.showError(e.getMessage());
+        }
+
         TaskList tempTasks;
         try {
             tempTasks = new TaskList(storage.load());

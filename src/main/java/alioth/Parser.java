@@ -1,25 +1,81 @@
 package alioth;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import alioth.command.AddDeadlineCommand;
 import alioth.command.AddEventCommand;
 import alioth.command.AddTodoCommand;
+import alioth.command.AliasCommand;
 import alioth.command.Command;
 import alioth.command.DeleteCommand;
 import alioth.command.ExitCommand;
 import alioth.command.FindCommand;
+import alioth.command.ListAliasesCommand;
 import alioth.command.ListCommand;
 import alioth.command.MarkCommand;
+import alioth.command.UnaliasCommand;
 import alioth.command.UnmarkCommand;
+import alioth.storage.Storage;
 import alioth.task.TaskList;
+
 /**
  * Parses user input into command objects.
  */
 public class Parser {
 
+    private static final Set<String> COMMAND_WORDS = Set.of(
+            "bye", "list", "find", "mark", "unmark", "delete",
+            "todo", "deadline", "event",
+            "alias", "unalias", "aliases"
+    );
+
+    private static final Map<String, String> ALIASES = new HashMap<>();
+    private static Storage storage; // for alias persistence
+
     /**
      * Prevents instantiation of this utility class.
      */
     private Parser() {}
+
+    /**
+     * Sets the storage used to load/save aliases.
+     *
+     * @param storage Storage instance.
+     */
+    public static void setStorage(Storage storage) {
+        assert storage != null : "Parser storage should not be null";
+        Parser.storage = storage;
+    }
+
+    /**
+     * Loads aliases from storage into memory.
+     *
+     * @throws AliothException If loading aliases fails.
+     */
+    public static void loadAliases() throws AliothException {
+        if (storage == null) {
+            return;
+        }
+
+        Map<String, String> loaded = storage.loadAliases();
+        ALIASES.clear();
+        ALIASES.putAll(loaded);
+    }
+
+    /**
+     * Saves current aliases to storage.
+     *
+     * @throws AliothException If saving aliases fails.
+     */
+    private static void saveAliases() throws AliothException {
+        if (storage == null) {
+            return;
+        }
+
+        storage.saveAliases(getAliases());
+    }
 
     /**
      * Parses the user input into a Command object.
@@ -37,6 +93,8 @@ public class Parser {
 
         String commandWord = getCommandWord(input);
         String args = getCommandArgs(input);
+
+        commandWord = resolveAlias(commandWord);
 
         switch (commandWord) {
         case "bye":
@@ -57,9 +115,95 @@ public class Parser {
             return new AddDeadlineCommand(args);
         case "event":
             return new AddEventCommand(args);
+
+        case "alias":
+            return new AliasCommand(args);
+        case "unalias":
+            return new UnaliasCommand(args);
+        case "aliases":
+            return new ListAliasesCommand();
+
         default:
             throw new AliothException(Message.UNKNOWN_COMMAND.getText());
         }
+    }
+
+    private static String resolveAlias(String commandWord) {
+        return ALIASES.getOrDefault(commandWord, commandWord);
+    }
+
+    private static boolean isReservedCommandWord(String word) {
+        return COMMAND_WORDS.contains(word);
+    }
+
+    private static boolean isValidAliasWord(String word) {
+        return word.matches("[a-zA-Z]+");
+    }
+
+    /**
+     * Adds an alias that maps {@code aliasWord} to {@code targetCommandWord}.
+     *
+     * @param aliasWord The alias to add.
+     * @param targetCommandWord The existing command word the alias maps to.
+     * @throws AliothException If the alias is invalid, clashes with a command word,
+     *                         already exists, or the target command is unknown.
+     */
+    public static void addAlias(String aliasWord, String targetCommandWord) throws AliothException {
+        String alias = aliasWord.trim();
+        String target = targetCommandWord.trim();
+
+        if (alias.isEmpty() || target.isEmpty()) {
+            throw new AliothException(Message.INVALID_ALIAS.getText());
+        }
+
+        if (!isValidAliasWord(alias) || !isValidAliasWord(target)) {
+            throw new AliothException(Message.INVALID_ALIAS_WORD.getText());
+        }
+
+        if (isReservedCommandWord(alias)) {
+            throw new AliothException(Message.ALIAS_IS_COMMAND_WORD.format(alias));
+        }
+
+        if (ALIASES.containsKey(alias)) {
+            throw new AliothException(Message.ALIAS_ALREADY_EXISTS.format(alias));
+        }
+
+        if (!COMMAND_WORDS.contains(target)) {
+            throw new AliothException(Message.UNKNOWN_ALIAS_TARGET.format(target));
+        }
+
+        ALIASES.put(alias, target);
+        saveAliases();
+    }
+
+    /**
+     * Removes an existing alias.
+     *
+     * @param aliasWord The alias to remove.
+     * @throws AliothException If the alias does not exist.
+     */
+    public static void removeAlias(String aliasWord) throws AliothException {
+        String alias = aliasWord.trim();
+
+        if (alias.isEmpty()) {
+            throw new AliothException(Message.INVALID_UNALIAS.getText());
+        }
+
+        if (!ALIASES.containsKey(alias)) {
+            throw new AliothException(Message.NO_SUCH_ALIAS.format(alias));
+        }
+
+        ALIASES.remove(alias);
+        saveAliases();
+    }
+
+    /**
+     * Returns an unmodifiable snapshot of current aliases.
+     *
+     * @return A copy of the alias map.
+     */
+    public static Map<String, String> getAliases() {
+        return Map.copyOf(ALIASES);
     }
 
     /**
@@ -126,7 +270,7 @@ public class Parser {
      * Parses and validates a 1-based task index from the given arguments.
      *
      * Ensures the parsed task number refers to an existing task in the
-     * provided TaskList, then converts it to a 0-based index for internal use.
+     * provided {@code TaskList}, then converts it to a 0-based index for internal use.
      *
      * @param tasks The task list used to validate the index range.
      * @param args The argument string expected to contain the task number.
@@ -142,6 +286,6 @@ public class Parser {
             throw new AliothException(Message.invalidIndexCommand(commandWord).getText());
         }
 
-        return taskNumber - 1; // convert to 0-based index
+        return taskNumber - 1;
     }
 }
