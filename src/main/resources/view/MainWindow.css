@@ -1,0 +1,49 @@
+/* The main chat area background - Soft Sunset/Magic Forest vibe */
+.root {
+    -fx-background-color: linear-gradient(to bottom right, #fdfcfb, #e2d1c3);
+}
+
+.label {
+    -fx-padding: 12;
+    -fx-background-radius: 25 25 25 25; /* Rounder, cloud-like bubbles */
+    -fx-wrap-text: true;
+    -fx-max-width: 500;
+    /* Using a serif font for that storybook feel */
+    -fx-font-family: "Georgia", serif;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+/* User dialog: Dreamy Blue Sky */
+.user-label {
+    -fx-background-color: linear-gradient(to bottom, #89f7fe, #66a6ff);
+    -fx-text-fill: white;
+    -fx-alignment: CENTER_RIGHT;
+    -fx-text-alignment: RIGHT;
+}
+
+/* Alioth dialog: Antique Parchment */
+.alioth-label {
+    -fx-background-color: linear-gradient(to bottom, #fffef0, #f7f3d5);
+    -fx-text-fill: #5d4037; /* Deep brown text instead of harsh black */
+    -fx-alignment: CENTER_LEFT;
+    -fx-text-alignment: LEFT;
+    -fx-border-color: #d7ccc8;
+    -fx-border-width: 1;
+    -fx-border-radius: 25;
+}
+
+/* Error style: Cursed/Enchanted Red */
+.error-label {
+    -fx-background-color: linear-gradient(to bottom, #ff9a9e, #fecfef);
+    -fx-text-fill: #b71c1c;
+    -fx-font-weight: bold;
+    -fx-border-color: #b71c1c;
+    -fx-border-style: dashed; /* "Cursed" dashed border */
+}
+
+/* ScrollBar styling to look less "Windows-y" */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}

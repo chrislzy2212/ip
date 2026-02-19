@@ -61,17 +61,17 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-
         if (input == null || input.trim().isEmpty()) {
             userInput.clear();
             return;
         }
 
         String response = alioth.getResponse(input);
+        boolean isError = response.contains("OOPS!!!"); // Simple check for error highlighting
 
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getAliothDialog(response, aliothImage)
+                DialogBox.getAliothDialog(response, aliothImage, isError)
         );
 
         userInput.clear();
