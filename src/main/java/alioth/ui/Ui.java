@@ -8,9 +8,11 @@ import alioth.task.Task;
 
 /**
  * Handles user interaction (input and output) for the chatbot.
+ * with a sweet and dramatic princess personality.
  */
 public class Ui {
-    private static final String LINE = "____________________________________________________________";
+    /** Simplified separator to prevent encoding issues in the GUI. */
+    private static final String LINE = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
 
     private final Scanner scanner;
     private final StringBuilder output;
@@ -103,26 +105,28 @@ public class Ui {
     }
 
     /**
-     * Prints the welcome message.
+     * Prints the royal welcome message.
      */
     public void showWelcome() {
-        addBlock("Hello! I'm Alioth", "What can I do for you?");
+        addBlock("Salutations! I am Alioth, your royal helper!",
+                "What is your heart's wish for our list today?");
     }
 
     /**
      * Prints the goodbye message.
      */
     public void showBye() {
-        addBlock("Bye. Hope to see you again soon!");
+        addBlock("Goodbye for now! I hope all your dreams come true!",
+                "Come back to the castle soon!");
     }
 
     /**
-     * Prints an error message.
-     *
-     * @param message Error message to display.
+     * Prints an error message with princess flair.
      */
     public void showError(String message) {
-        addBlock(message);
+        addBlock("Oh heavens! A little bit of trouble:",
+                message,
+                "Don't worry, we can fix it together!");
     }
 
     /**
@@ -155,16 +159,14 @@ public class Ui {
      * @param tasks Tasks to display.
      */
     public void showTasks(List<Task> tasks) {
-        showTaskList("Here are the tasks in your list:", tasks);
+        showTaskList("Checking royal records... Here are the tasks:", tasks);
     }
 
     /**
      * Shows tasks that match the given keyword.
-     *
-     * @param tasks Matching tasks to display.
      */
     public void showMatchingTasks(List<Task> tasks) {
-        showTaskList("Here are the matching tasks in your list:", tasks);
+        showTaskList("I found these matching tasks in the garden:", tasks);
     }
 
     /**
@@ -175,9 +177,9 @@ public class Ui {
      */
     public void showAddTask(Task task, int size) {
         showLine();
-        addLine("Got it. I've added this task:");
+        addLine("Whistle while you work! I have added this task:");
         addLine("  " + task);
-        addLine("Now you have " + size + " tasks in the list.");
+        addLine("Now your kingdom has " + size + " tasks to complete!");
         showLine();
     }
 
@@ -189,9 +191,9 @@ public class Ui {
      */
     public void showDeleteTask(Task task, int size) {
         showLine();
-        addLine("Noted. I've removed this task:");
+        addLine("Let it go! I have removed this task for you:");
         addLine("  " + task);
-        addLine("Now you have " + size + " tasks in the list.");
+        addLine("Your path is clearer now with " + size + " tasks left.");
         showLine();
     }
 
@@ -202,19 +204,20 @@ public class Ui {
      */
     public void showMarkTask(Task task) {
         showLine();
-        addLine("Nice! I've marked this task as done:");
+        addLine("Hooray! A dream come true! I marked this as done:");
         addLine("  " + task);
+        addLine("You are doing such a wonderful job!");
         showLine();
     }
 
     /**
-     * Prints confirmation after unmarking a task as not done.
+     * Prints confirmation after unmarking a task.
      *
      * @param task Task that was unmarked.
      */
     public void showUnmarkTask(Task task) {
         showLine();
-        addLine("OK, I've marked this task as not done yet:");
+        addLine("Oh! I have marked this task as not done yet:");
         addLine("  " + task);
         showLine();
     }
@@ -226,7 +229,8 @@ public class Ui {
      * @param targetCommandWord The command word the alias maps to.
      */
     public void showAliasAdded(String aliasWord, String targetCommandWord) {
-        showMessage("Alias added: " + aliasWord + " -> " + targetCommandWord);
+        showMessage("A new secret name! " + aliasWord + " is now "
+                + targetCommandWord + ". How exciting!");
     }
 
     /**
@@ -235,7 +239,7 @@ public class Ui {
      * @param aliasWord Alias word removed by the user.
      */
     public void showAliasRemoved(String aliasWord) {
-        showMessage("Alias removed: " + aliasWord);
+        showMessage("The magic is gone! " + aliasWord + " is no longer a secret name.");
     }
 
     /**
@@ -246,11 +250,11 @@ public class Ui {
     public void showAliases(Map<String, String> aliases) {
         showLine();
         if (aliases.isEmpty()) {
-            addLine("No aliases defined.");
+            addLine("The secret scroll is empty. No aliases defined!");
         } else {
-            addLine("Aliases:");
+            addLine("Royal Secret Names:");
             for (Map.Entry<String, String> entry : aliases.entrySet()) {
-                addLine("  " + entry.getKey() + " -> " + entry.getValue());
+                addLine("  * " + entry.getKey() + " -> " + entry.getValue());
             }
         }
         showLine();

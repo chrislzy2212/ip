@@ -1,32 +1,40 @@
 package alioth;
 
 /**
- * Represents error messages used by the application.
+ * Error messages using a sweet princess personality with direct command examples.
  */
 public enum Message {
-    LEADING_SPACES("OOPS!!! Command should not start with space(s)."),
-    UNKNOWN_COMMAND("OOPS!!! I'm sorry, but I don't know what that means :-("),
-
-    INVALID_TODO("OOPS!!! Invalid todo format. Use: todo <description>"),
-    INVALID_DEADLINE("OOPS!!! Invalid deadline format. Use: deadline <desc> /by yyyy-MM-dd"),
-    INVALID_EVENT("OOPS!!! Invalid event format. Use: event <desc> /from yyyy-MM-dd HHmm /to yyyy-MM-dd HHmm"),
-    EVENT_CHRONOLOGY("OOPS!!! The start time (/from) must be before the end time (/to)."),
-
-    INVALID_MARK("OOPS!!! Invalid mark format. Use: mark <task number>"),
-    INVALID_UNMARK("OOPS!!! Invalid unmark format. Use: unmark <task number>"),
-    INVALID_DELETE("OOPS!!! Invalid delete format. Use: delete <task number>"),
-    INVALID_FIND("OOPS!!! Invalid find format. Use: find <keyword>"),
+    LEADING_SPACES("Oh dear! A princess loves a tidy room. "
+            + "Please do not start your command with any spaces!"),
+    UNKNOWN_COMMAND("Oh my! I have never heard of that command in all the kingdom. "
+            + "Could you please try a different word?"),
+    INVALID_TODO("A princess needs a plan! Please tell me what you want to do. "
+            + "Use: todo <description>"),
+    INVALID_DEADLINE("Oh no! We must not be late for the royal ball! "
+            + "Please use: deadline <desc> /by yyyy-MM-dd"),
+    INVALID_EVENT("We are having a party! Please tell me when it starts and ends using: "
+            + "event <desc> /from <time> /to <time>"),
+    EVENT_CHRONOLOGY("How sad! Time is a fickle thing. "
+            + "You cannot start a party after it has already ended, darling."),
+    INVALID_MARK("Wait! I can only mark a task as done if you give me its royal number. "
+            + "Try: mark <number>"),
+    INVALID_UNMARK("Oh! Did you change your mind? "
+            + "Please use the task number so I can unmark it: unmark <number>"),
+    INVALID_DELETE("Goodbye, task! But I need to know which number to remove first. "
+            + "Try: delete <number>"),
+    INVALID_FIND("I can find anything! But you must give me a word to look for, like: "
+            + "find <keyword>"),
 
     // Aliases
-    INVALID_ALIAS("OOPS!!! Invalid alias format. Use: alias <alias> <command>"),
-    INVALID_UNALIAS("OOPS!!! Invalid unalias format. Use: unalias <alias>"),
-    INVALID_ALIAS_WORD("OOPS!!! Alias and command must be letters only."),
-    ALIAS_ALREADY_EXISTS("OOPS!!! Alias already exists: %s"),
-    NO_SUCH_ALIAS("OOPS!!! No such alias: %s"),
-    ALIAS_IS_COMMAND_WORD("OOPS!!! '%s' is an existing command word."),
-    UNKNOWN_ALIAS_TARGET("OOPS!!! Unknown command: %s"),
+    INVALID_ALIAS("A new secret name! How exciting! Please use: alias <alias> <command>"),
+    INVALID_UNALIAS("The magic is gone! To stop the shortcut, use: unalias <alias>"),
+    INVALID_ALIAS_WORD("Oh! Just around the riverbend, we only use letters for our aliases."),
+    ALIAS_ALREADY_EXISTS("Oh! This secret name is already used in the royal records: %s"),
+    NO_SUCH_ALIAS("I looked everywhere in the palace, but I cannot find that alias: %s"),
+    ALIAS_IS_COMMAND_WORD("%s is a royal word already. You cannot change a king's command!"),
+    UNKNOWN_ALIAS_TARGET("Heigh-ho! I don't know the command for: %s"),
 
-    SAVE_ERROR("OOPS!!! Could not save tasks to the save file.");
+    SAVE_ERROR("Oh no! The magic mirror has clouded over. I could not save your tasks.");
 
     private final String text;
 
@@ -35,19 +43,19 @@ public enum Message {
     }
 
     /**
-     * Returns the message text.
+     * Returns the raw message text.
      *
-     * @return The message text.
+     * @return The message string.
      */
     public String getText() {
         return text;
     }
 
     /**
-     * Returns formatted message text.
+     * Formats the message with the provided arguments.
      *
      * @param args Formatting arguments.
-     * @return Formatted message text.
+     * @return The formatted string.
      */
     public String format(Object... args) {
         return String.format(text, args);
@@ -56,7 +64,8 @@ public enum Message {
     /**
      * Returns the corresponding invalid-index message for the given command word.
      *
-     * @return The message corresponding to the command word, or UNKNOWN_COMMAND if none matches.
+     * @param commandWord The command word being used (e.g., mark, delete).
+     * @return The corresponding Message or UNKNOWN_COMMAND if no match is found.
      */
     public static Message invalidIndexCommand(String commandWord) {
         switch (commandWord) {
@@ -69,15 +78,5 @@ public enum Message {
         default:
             return UNKNOWN_COMMAND;
         }
-    }
-
-    /**
-     * Returns an unknown-command message for a specific command word.
-     *
-     * @param commandWord The unknown command word.
-     * @return A formatted unknown-command message.
-     */
-    public static String unknownCommand(String commandWord) {
-        return "OOPS!!! Unknown command: " + commandWord;
     }
 }

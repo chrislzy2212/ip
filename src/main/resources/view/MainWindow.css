@@ -1,48 +1,46 @@
-/* The main chat area background - Soft Sunset/Magic Forest vibe */
+/* 1. THE DREAMY BACKGROUND */
 .root {
-    -fx-background-color: linear-gradient(to bottom right, #fdfcfb, #e2d1c3);
+    -fx-background-color: #ffe4e8; /* Deeper Milky Pink so white bubbles pop */
 }
 
+/* 2. GENERAL LABEL STYLING */
 .label {
     -fx-padding: 12;
-    -fx-background-radius: 25 25 25 25; /* Rounder, cloud-like bubbles */
     -fx-wrap-text: true;
     -fx-max-width: 500;
-    /* Using a serif font for that storybook feel */
-    -fx-font-family: "Georgia", serif;
-    -fx-font-size: 14px;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
 }
 
-/* User dialog: Dreamy Blue Sky */
+/* 3. ASYMMETRY: USER (Modern, Blue, Small) */
 .user-label {
-    -fx-background-color: linear-gradient(to bottom, #89f7fe, #66a6ff);
-    -fx-text-fill: white;
-    -fx-alignment: CENTER_RIGHT;
-    -fx-text-alignment: RIGHT;
+    -fx-background-color: #81d4fa;
+    -fx-text-fill: #01579b;
+    -fx-font-family: "Arial";
+    -fx-font-size: 12px;
+    -fx-background-radius: 20 20 0 20;
 }
 
-/* Alioth dialog: Antique Parchment */
+/* 4. ASYMMETRY: ALIOTH (Elegant, White, Large) */
 .alioth-label {
-    -fx-background-color: linear-gradient(to bottom, #fffef0, #f7f3d5);
-    -fx-text-fill: #5d4037; /* Deep brown text instead of harsh black */
-    -fx-alignment: CENTER_LEFT;
-    -fx-text-alignment: LEFT;
-    -fx-border-color: #d7ccc8;
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #5d4037;
+    -fx-font-family: "Georgia";
+    -fx-font-size: 14px;
+    -fx-background-radius: 20 20 20 0;
+    -fx-border-color: #fce4ec;
     -fx-border-width: 1;
-    -fx-border-radius: 25;
 }
 
-/* Error style: Cursed/Enchanted Red */
+/* 5. ERROR HIGHLIGHTING (Catchy & Different) */
 .error-label {
-    -fx-background-color: linear-gradient(to bottom, #ff9a9e, #fecfef);
-    -fx-text-fill: #b71c1c;
+    -fx-background-color: #ffebee;
+    -fx-text-fill: #c62828;
     -fx-font-weight: bold;
-    -fx-border-color: #b71c1c;
-    -fx-border-style: dashed; /* "Cursed" dashed border */
+    -fx-border-color: #ef9a9a;
+    -fx-border-style: dashed;
+    -fx-border-width: 2;
 }
 
-/* ScrollBar styling to look less "Windows-y" */
 .scroll-pane {
     -fx-background-color: transparent;
     -fx-background: transparent;
