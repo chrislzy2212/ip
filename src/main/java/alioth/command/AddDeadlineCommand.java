@@ -32,7 +32,7 @@ public class AddDeadlineCommand extends Command {
             throw new AliothException(Message.INVALID_DEADLINE.getText());
         }
 
-        String[] parts = args.split(" /by ", 2);
+        String[] parts = args.split("\\s+/by\\s+", 2);
         if (parts.length != 2) {
             throw new AliothException(Message.INVALID_DEADLINE.getText());
         }

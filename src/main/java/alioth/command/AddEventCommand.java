@@ -36,13 +36,13 @@ public class AddEventCommand extends Command {
             throw new AliothException(Message.INVALID_EVENT.getText());
         }
 
-        String[] firstSplit = args.split(" /from ", 2);
+        String[] firstSplit = args.split("\\s+/from\\s+", 2);
         if (firstSplit.length != 2) {
             throw new AliothException(Message.INVALID_EVENT.getText());
         }
 
         String description = firstSplit[0].trim();
-        String[] secondSplit = firstSplit[1].split(" /to ", 2);
+        String[] secondSplit = firstSplit[1].split("\\s+/to\\s+", 2);
         if (secondSplit.length != 2) {
             throw new AliothException(Message.INVALID_EVENT.getText());
         }

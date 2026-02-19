@@ -20,15 +20,18 @@ public class AddTodoCommand extends Command {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws AliothException {
-        String description = args.trim();
+        String description = args.trim(); //
         if (description.isEmpty()) {
-            throw new AliothException(Message.INVALID_TODO.getText());
+            throw new AliothException(Message.INVALID_TODO.getText()); //
         }
 
-        Task task = new Todo(description);
-        tasks.add(task);
+        Task task = new Todo(description); //
+        if (tasks.containsDuplicate(task)) {
+            throw new AliothException(Message.DUPLICATE.getText());
+        }
 
-        ui.showAddTask(task, tasks.size());
-        storage.save(tasks.asList());
+        tasks.add(task); //
+        ui.showAddTask(task, tasks.size()); //
+        storage.save(tasks.asList()); //
     }
 }
