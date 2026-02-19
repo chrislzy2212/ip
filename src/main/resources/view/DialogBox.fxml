@@ -13,7 +13,12 @@
          xmlns="http://javafx.com/javafx/17"
          xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Label fx:id="dialog" text="Label" wrapText="true" minHeight="-Infinity"/>
+        <Label fx:id="dialog"
+               text="Label"
+               wrapText="true"
+               minHeight="-Infinity"
+               maxWidth="Infinity"
+               HBox.hgrow="ALWAYS" />
         <ImageView fx:id="displayPicture"
                    fitHeight="99.0"
                    fitWidth="99.0"
