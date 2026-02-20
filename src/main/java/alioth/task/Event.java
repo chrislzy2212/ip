@@ -2,13 +2,15 @@ package alioth.task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  * Represents a task that starts and ends at a specific date/time.
  */
 public class Event extends Task {
     private static final DateTimeFormatter OUTPUT_FORMAT =
-            DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
+            DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm")
+                    .withLocale(Locale.ENGLISH);
 
     private final LocalDateTime from;
     private final LocalDateTime to;

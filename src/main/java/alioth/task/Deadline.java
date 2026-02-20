@@ -2,13 +2,15 @@ package alioth.task;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  * Represents a task that needs to be done before a specific date.
  */
 public class Deadline extends Task {
     private static final DateTimeFormatter OUTPUT_FORMAT =
-            DateTimeFormatter.ofPattern("MMM dd yyyy");
+            DateTimeFormatter.ofPattern("MMM dd yyyy")
+                    .withLocale(Locale.ENGLISH);
 
     private final LocalDate by;
 

@@ -2,7 +2,7 @@ package alioth.command;
 
 import java.util.Map;
 
-import alioth.Parser;
+import alioth.parser.Parser;
 import alioth.storage.Storage;
 import alioth.task.TaskList;
 import alioth.ui.Ui;

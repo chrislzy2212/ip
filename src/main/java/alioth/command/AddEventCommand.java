@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import alioth.AliothException;
-import alioth.Message;
+import alioth.exception.AliothException;
+import alioth.message.Message;
 import alioth.storage.Storage;
 import alioth.task.Event;
 import alioth.task.Task;
@@ -68,6 +68,9 @@ public class AddEventCommand extends Command {
         }
 
         Task task = new Event(description, from, to);
+        if (tasks.containsDuplicate(task)) {
+            throw new AliothException(Message.DUPLICATE.getText());
+        }
         tasks.add(task);
 
         ui.showAddTask(task, tasks.size());

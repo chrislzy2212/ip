@@ -1,4 +1,4 @@
-package alioth;
+package alioth.exception;
 
 /**
  * Represents an error caused by invalid user input.

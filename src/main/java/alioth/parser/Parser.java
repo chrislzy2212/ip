@@ -1,9 +1,11 @@
-package alioth;
+package alioth.parser;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import alioth.exception.AliothException;
+import alioth.message.Message;
 import alioth.command.AddDeadlineCommand;
 import alioth.command.AddEventCommand;
 import alioth.command.AddTodoCommand;
@@ -32,7 +34,7 @@ public class Parser {
     );
 
     private static final Map<String, String> ALIASES = new HashMap<>();
-    private static Storage storage; // for alias persistence
+    private static Storage storage;
 
     /**
      * Prevents instantiation of this utility class.
