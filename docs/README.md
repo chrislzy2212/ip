@@ -1,6 +1,6 @@
 # Alioth User Guide
 
-![Ui](Ui.png)
+![Ui](./Ui.png)
 
 Alioth is a charming, princess-themed chatbot designed to help you manage your daily tasks with grace and efficiency. Whether you are tracking deadlines or planning a royal ball, Alioth ensures your "Royal Records" are always in order.
 
