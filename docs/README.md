@@ -4,6 +4,24 @@
 
 Alioth is a charming, princess-themed chatbot designed to help you manage your daily tasks with grace and efficiency. Whether you are tracking deadlines or planning a royal ball, Alioth ensures your "Royal Records" are always in order.
 
+## Getting Started
+
+### Prerequisites
+* **Java 17** or above installed on your system.
+
+### Installation Steps
+1. Download the latest `alioth-v0.2.jar` from the [A-Release page](https://github.com/chrislzy2212/ip/releases/tag/A-Release).
+2. Place the file in any folder of your choice.
+3. Open your terminal or command prompt.
+4. Navigate to the folder where you placed the file using the `cd` command:
+   ```
+   cd Desktop
+   ```
+5. Launch Alioth by running the following command:
+    ```
+    java -jar alioth-v0.2.jar
+    ```
+
 ## Adding Todo tasks: `todo`
 
 Adds a simple task without any date or time constraints to your royal records.
