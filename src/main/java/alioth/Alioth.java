@@ -28,7 +28,6 @@ public class Alioth {
         ui = new Ui();
         storage = new Storage(filePath);
 
-        // Alias persistence setup
         Parser.setStorage(storage);
         try {
             Parser.loadAliases();

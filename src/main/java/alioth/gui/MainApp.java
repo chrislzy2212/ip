@@ -24,6 +24,7 @@ public class MainApp extends Application {
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setTitle("Alioth");
 
             MainWindow controller = fxmlLoader.getController();
             assert controller != null : "Failed to get controller in MainApp";
