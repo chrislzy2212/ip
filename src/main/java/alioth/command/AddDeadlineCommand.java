@@ -3,8 +3,8 @@ package alioth.command;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-import alioth.AliothException;
-import alioth.Message;
+import alioth.exception.AliothException;
+import alioth.message.Message;
 import alioth.storage.Storage;
 import alioth.task.Deadline;
 import alioth.task.Task;
@@ -51,6 +51,9 @@ public class AddDeadlineCommand extends Command {
         }
 
         Task task = new Deadline(description, byDate);
+        if (tasks.containsDuplicate(task)) {
+            throw new AliothException(Message.DUPLICATE.getText());
+        }
         tasks.add(task);
 
         ui.showAddTask(task, tasks.size());

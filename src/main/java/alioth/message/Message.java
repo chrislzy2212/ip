@@ -1,4 +1,4 @@
-package alioth;
+package alioth.message;
 
 /**
  * Error messages using a sweet princess personality with direct command examples.

@@ -1,6 +1,7 @@
 package alioth.storage;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,11 +12,12 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import alioth.AliothException;
-import alioth.Message;
+import alioth.exception.AliothException;
+import alioth.message.Message;
 import alioth.task.Deadline;
 import alioth.task.Event;
 import alioth.task.Task;
@@ -26,7 +28,7 @@ import alioth.task.Todo;
  */
 public class Storage {
     private static final DateTimeFormatter EVENT_FILE_FORMAT =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm", Locale.ENGLISH);
 
     private static final Path ALIAS_PATH = Paths.get("data", "aliases.txt");
     private final Path filePath;
@@ -54,7 +56,7 @@ public class Storage {
 
         List<String> lines;
         try {
-            lines = Files.readAllLines(filePath);
+            lines = Files.readAllLines(filePath, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new AliothException(Message.SAVE_ERROR.getText());
         }
@@ -88,7 +90,7 @@ public class Storage {
                     .map(this::convertTaskToLine)
                     .toList();
 
-            Files.write(filePath, lines);
+            Files.write(filePath, lines, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new AliothException(Message.SAVE_ERROR.getText());
         }
@@ -241,7 +243,7 @@ public class Storage {
         }
 
         try {
-            return Files.readAllLines(ALIAS_PATH).stream()
+            return Files.readAllLines(ALIAS_PATH, StandardCharsets.UTF_8).stream()
                     .map(line -> line.split(" \\| ", 2))
                     .filter(parts -> parts.length == 2)
                     .collect(Collectors.toMap(
@@ -267,7 +269,7 @@ public class Storage {
                     .map(e -> e.getKey() + " | " + e.getValue())
                     .toList();
 
-            Files.write(ALIAS_PATH, lines);
+            Files.write(ALIAS_PATH, lines, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new AliothException(Message.SAVE_ERROR.getText());
         }
